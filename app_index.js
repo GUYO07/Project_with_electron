@@ -4,7 +4,7 @@ const send2 = require("./write_arduino");
 const read = require("./read_arduino");
 const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
-
+const fs = require("fs");
 arduino
   .getPortsList()
   .then((result) => {
@@ -48,6 +48,7 @@ function set_parameter() {
   s2 = 0;
   c_1 = 0;
   c_2 = 0;
+  ps=0;
 }
 
 function port_select1() {
@@ -63,8 +64,8 @@ function port_read1() {
   const parser = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   parser.on("data", (data) => {
     document.getElementById("position1").innerHTML = data;
+    ps=data;
   });
-
 }
 function port_select2() {
   var e = document.getElementById("port2");
@@ -94,6 +95,7 @@ function c2() {
   } else {
     c_2 = 4;
   }
+  cb2();
 }
 
 const value1 = document.querySelector("#speed1");
@@ -202,9 +204,9 @@ input2.addEventListener("input", (event) => {
     s2 = 10 * 50;
   } else if (event.target.value == 3) {
     s2 = 10 * 65;
-  }else if (event.target.value == 2) {
+  } else if (event.target.value == 2) {
     s2 = 10 * 95;
-  }else if (event.target.value == 1) {
+  } else if (event.target.value == 1) {
     s2 = 10 * 155;
   }
 });
@@ -215,10 +217,78 @@ function cb1() {
   if (checkBox.checked == false) {
     console.log(s1 + c_1);
     send.send(s1 + c_1);
+    get_p();
   } else {
     console.log(5);
     if (s1 > 0 && c_1 > 0) {
       send.send(5);
     }
   }
+}
+
+function cb2() {
+  var checkBox = document.getElementById("cb2");
+  if (checkBox.checked == false) {
+    console.log(s2 + c_2);
+    send2.send(s2 + c_2);
+  } else {
+    console.log(5);
+    if (s2 > 0 && c_2 > 0) {
+      send2.send(5);
+    }
+  }
+}
+
+function delayLog(value, delay) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      //console.log(value);
+      resolve();
+    }, delay);
+  });
+}
+
+async function get_p() {
+  var x = [];
+  var t = [];
+  for (let i = 0; i <= 100; i++) {
+    if(i==80){
+      send.send(5);
+    }
+    const start = performance.now();
+    await delayLog(i, 1);
+    x.push(ps);
+    const end = performance.now();
+    t.push(end - start);
+  }
+  console.log(x);
+  //document.getElementById("time").innerHTML = x;
+
+  const jsonArray = [];
+
+  for (let i = 0; i <= x.length; i++) {
+    if (i > 0) {
+      var s = (x[i] - x[i - 1]) / t[i]*1000;
+    } else {
+      var s = 0;
+    }
+
+    const obj = {
+      Sample_time: i,
+      Position: x[i],
+      Speed: s,
+    };
+
+    jsonArray.push(obj);
+  }
+
+  const jsonData = JSON.stringify(jsonArray);
+
+  fs.writeFile("data.json", jsonData, "utf8", (err) => {
+    if (err) {
+      console.error("Error writing to file:", err);
+    } else {
+      console.log("JSON data saved to file.");
+    }
+  });
 }

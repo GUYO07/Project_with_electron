@@ -1,25 +1,12 @@
-const { SerialPort } = require('serialport');
-const { ReadlineParser } = require('@serialport/parser-readline');
-set();
-function set(){
-  dataArr=0;
-}
-function createSerialParser() {
-  const port = new SerialPort({ path: 'COM6', baudRate: 115200 });
-  const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
+const jsonArray = [];
 
-  // Create an array to store the received data
-  parser.on('data', (data) => {
-    dataArr=data;
-    console.log(dataArr);
-  });
-  
-  // Return the data array
-  return dataArr;
+for (let i = 1; i <= 10; i++) {
+  const obj = {
+    sample_time: i,
+    speed: `Speed ${i}`
+  };
+
+  jsonArray.push(obj);
 }
 
-// Call the function to create the parser and receive the data
-const read = createSerialParser();
-
-// Export the data array
-module.exports = read;
+console.log(JSON.stringify(jsonArray));
