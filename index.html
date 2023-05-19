@@ -11,15 +11,70 @@
   </head>
   <body>
     <h1>Hello World!</h1>
-    <p>
-      We are using Node.js <span id="node-version"></span>, Chromium
-      <span id="chrome-version"></span>, and Electron
-      <span id="electron-version"></span>.
-    </p>
-    <label class="switch-container">
-      <input id="checkbox" type="checkbox" />
-      <span class="slider"></span>
-    </label>
+    <div class="grid-container">
+      <span
+        ><p>Motor 1</p>
+        <p id="demo"></p>
+
+        <select name="port" id="port1" onchange="port_select1()">
+          <option value="">Please select port</option>
+        </select>
+        <br>
+        <br>
+        <div>
+          <label class="switch">
+            <input id="c1" type="checkbox" onchange="c1()"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div>
+          <input type="range" id="sp1" name="sp1" min="0" max="25" />
+          <label id="speed1">Speed</label>
+        </div>
+        <div class="centered" style="width: 20%">
+          <div class="checkbox-wrapper-10">
+            <input checked="" type="checkbox" id="cb1" class="tgl tgl-flip" onchange="cb1()"/>
+            <label
+              for="cb1"
+              data-tg-on="START"
+              data-tg-off="STOP!!!"
+              class="tgl-btn"
+            ></label>
+          </div>
+        </div>
+      </span>
+      <span
+        ><p>Motor 2</p>
+        <p id="demo2"></p>
+        <select name="port" id="port2" onchange="port_select2()">
+          <option value="">Please select port</option>
+        </select>
+        <br>
+        <br>
+        <div>
+          <label class="switch">
+            <input id="c2" type="checkbox" onchange="c2()"/>
+            <span class="slider"></span>
+          </label>
+        </div>
+        <div>
+          <input type="range" id="sp2" name="sp2" min="0" max="25" />
+          <label id="speed2">Speed</label>
+        </div>
+        <div class="centered" style="width: 20%">
+          <div class="checkbox-wrapper-10">
+            <input checked="" type="checkbox" id="cb2" class="tgl tgl-flip" onchange="cb2()"/>
+            <label
+              for="cb2"
+              data-tg-on="START"
+              data-tg-off="STOP!!!"
+              class="tgl-btn"
+            ></label>
+          </div>
+        </div>
+      </span>
+    </div>
+
     <script src="app_index.js"></script>
   </body>
 </html>
