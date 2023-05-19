@@ -1,14 +1,25 @@
-const x = require('serialport');
-const fs = require('fs');
-const getPortsList = () => {
-  return x.SerialPort.list().then(ports => {
-    const portsList = ports.map(port => port.path);
-    return portsList;
+const { SerialPort } = require('serialport');
+const { ReadlineParser } = require('@serialport/parser-readline');
+set();
+function set(){
+  dataArr=0;
+}
+function createSerialParser() {
+  const port = new SerialPort({ path: 'COM6', baudRate: 115200 });
+  const parser = port.pipe(new ReadlineParser({ delimiter: '\r\n' }));
+
+  // Create an array to store the received data
+  parser.on('data', (data) => {
+    dataArr=data;
+    console.log(dataArr);
   });
-};
+  
+  // Return the data array
+  return dataArr;
+}
 
-getPortsList()
-  .then(result => console.log(result))
-  .catch(error => console.error('Error:', error));
+// Call the function to create the parser and receive the data
+const read = createSerialParser();
 
-module.exports = {getPortsList};
+// Export the data array
+module.exports = read;
