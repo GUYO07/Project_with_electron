@@ -1,9 +1,9 @@
 const arduino = require("./ports");
 const send = require("./write_arduino");
 const send2 = require("./write_arduino");
-const read = require("./read_arduino");
 const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
+const position = require("./position");
 const fs = require("fs");
 arduino
   .getPortsList()
@@ -44,11 +44,11 @@ arduino
 
 set_parameter();
 function set_parameter() {
-  s1 = 0;
-  s2 = 0;
+  s1 = -1;
+  s2 = -1;
   c_1 = 0;
   c_2 = 0;
-  ps=0;
+  ps = 0;
 }
 
 function port_select1() {
@@ -64,7 +64,7 @@ function port_read1() {
   const parser = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   parser.on("data", (data) => {
     document.getElementById("position1").innerHTML = data;
-    ps=data;
+    ps = data;
   });
 }
 function port_select2() {
@@ -72,6 +72,7 @@ function port_select2() {
   var value = e.value;
   document.getElementById("demo2").innerHTML = value;
   p2 = value;
+  send2.set(value);
 }
 
 c1();
@@ -169,9 +170,9 @@ input2.addEventListener("input", (event) => {
   } else if (event.target.value == 21) {
     s2 = 10 * 10;
   } else if (event.target.value == 20) {
-    s2 = 10 * 110;
+    s2 = 10 * 11;
   } else if (event.target.value == 19) {
-    s2 = 10 * 110;
+    s2 = 10 * 11;
   } else if (event.target.value == 18) {
     s2 = 10 * 12;
   } else if (event.target.value == 17) {
@@ -209,6 +210,7 @@ input2.addEventListener("input", (event) => {
   } else if (event.target.value == 1) {
     s2 = 10 * 155;
   }
+  cb2();
 });
 
 function cb1() {
@@ -217,10 +219,11 @@ function cb1() {
   if (checkBox.checked == false) {
     console.log(s1 + c_1);
     send.send(s1 + c_1);
-    get_p();
+    //get_p();
+    get_p2();
   } else {
     console.log(5);
-    if (s1 > 0 && c_1 > 0) {
+    if (s1 > -1 && c_1 > 0) {
       send.send(5);
     }
   }
@@ -229,11 +232,15 @@ function cb1() {
 function cb2() {
   var checkBox = document.getElementById("cb2");
   if (checkBox.checked == false) {
+    if (c_2 == 4) {
+      s2 - 3;
+    }
     console.log(s2 + c_2);
     send2.send(s2 + c_2);
+    //get_p3();
   } else {
     console.log(5);
-    if (s2 > 0 && c_2 > 0) {
+    if (s2 > -1 && c_2 > 0) {
       send2.send(5);
     }
   }
@@ -251,32 +258,37 @@ function delayLog(value, delay) {
 async function get_p() {
   var x = [];
   var t = [];
-  for (let i = 0; i <= 100; i++) {
-    if(i==80){
+  for (let i = 0; i >= 0; i++) {
+    console.log(i);
+    if (Number(ps) >= 10) {
       send.send(5);
     }
+    if (((x[i - 1] - x[i - 2]) / t[i - 1]) * 1000 == 0) {
+      break;
+    }
     const start = performance.now();
-    await delayLog(i, 1);
+    await delayLog(i, 10);
     x.push(ps);
     const end = performance.now();
     t.push(end - start);
   }
   console.log(x);
+
   //document.getElementById("time").innerHTML = x;
 
   const jsonArray = [];
 
-  for (let i = 0; i <= x.length; i++) {
+  for (let i = 0; i < x.length; i++) {
     if (i > 0) {
-      var s = (x[i] - x[i - 1]) / t[i]*1000;
+      var s = ((x[i] - x[i - 1]) / t[i]) * 1000;
     } else {
       var s = 0;
     }
-
     const obj = {
       Sample_time: i,
       Position: x[i],
       Speed: s,
+      Time: t[i],
     };
 
     jsonArray.push(obj);
@@ -291,4 +303,37 @@ async function get_p() {
       console.log("JSON data saved to file.");
     }
   });
+}
+
+async function get_p2() {
+  var Speed = 18 / 3; // mm/s=rpm*20 mm /60 s
+  var result = position.position(10, 20, 10, 20, 0.1, Speed);
+  var x_rep = result[0];
+  console.log(x_rep);
+  console.log(typeof x_rep[0]);
+  var x = [];
+  var t = [];
+  /*for (let i = 0; i >= 0; i++) {
+    if (Number(ps) >= Number(x_rep[0])) {
+      console.log("start");
+      s1 = 2300;
+      send.send(s1 + c_1);
+      for (let i = 0; i >= 0; i++) {
+        if (Number(ps) >= Number(x_rep[x_rep.length - 1])) {
+          send.send(5);
+          break;
+        }
+      }
+      console.log("finish");
+      break;
+    }
+  }*/
+}
+async function get_p3() {
+  const start = performance.now();
+  await delayLog(1, 2500);
+  const end = performance.now();
+  console.log(end - start);
+  send2.send(5);
+  console.log("finish");
 }

@@ -1,1 +1,872 @@
-[{"Sample_time":0,"Position":"0.00","Speed":0},{"Sample_time":1,"Position":"0.00","Speed":0},{"Sample_time":2,"Position":"0.00","Speed":0},{"Sample_time":3,"Position":"0.00","Speed":0},{"Sample_time":4,"Position":"0.00","Speed":0},{"Sample_time":5,"Position":"0.00","Speed":0},{"Sample_time":6,"Position":"0.00","Speed":0},{"Sample_time":7,"Position":"0.00","Speed":0},{"Sample_time":8,"Position":"0.03","Speed":7.14285713778872},{"Sample_time":9,"Position":"0.03","Speed":0},{"Sample_time":10,"Position":"0.06","Speed":6.8181818320362035},{"Sample_time":11,"Position":"0.11","Speed":9.803921551440414},{"Sample_time":12,"Position":"0.18","Speed":12.96296298442554},{"Sample_time":13,"Position":"0.18","Speed":0},{"Sample_time":14,"Position":"0.23","Speed":10.204081620240602},{"Sample_time":15,"Position":"0.28","Speed":10.204081620240602},{"Sample_time":16,"Position":"0.28","Speed":0},{"Sample_time":17,"Position":"0.34","Speed":10},{"Sample_time":18,"Position":"0.40","Speed":12.499999968955914},{"Sample_time":19,"Position":"0.45","Speed":11.627906984803221},{"Sample_time":20,"Position":"0.45","Speed":0},{"Sample_time":21,"Position":"0.52","Speed":13.725490212119666},{"Sample_time":22,"Position":"0.58","Speed":9.99999999999999},{"Sample_time":23,"Position":"0.63","Speed":11.11111111111112},{"Sample_time":24,"Position":"0.63","Speed":0},{"Sample_time":25,"Position":"0.70","Speed":15.909090941417798},{"Sample_time":26,"Position":"0.70","Speed":0},{"Sample_time":27,"Position":"0.76","Speed":12.765957438713732},{"Sample_time":28,"Position":"0.81","Speed":11.11111111111112},{"Sample_time":29,"Position":"0.81","Speed":0},{"Sample_time":30,"Position":"0.88","Speed":13.461538453823355},{"Sample_time":31,"Position":"0.94","Speed":12.244897981526094},{"Sample_time":32,"Position":"0.94","Speed":0},{"Sample_time":33,"Position":"1.00","Speed":10.526315783970032},{"Sample_time":34,"Position":"1.07","Speed":16.27906977872453},{"Sample_time":35,"Position":"1.07","Speed":0},{"Sample_time":36,"Position":"1.12","Speed":10.204081620240608},{"Sample_time":37,"Position":"1.18","Speed":12.500000007760987},{"Sample_time":38,"Position":"1.18","Speed":0},{"Sample_time":39,"Position":"1.25","Speed":14.000000000000012},{"Sample_time":40,"Position":"1.30","Speed":11.11111111111112},{"Sample_time":41,"Position":"1.30","Speed":0},{"Sample_time":42,"Position":"1.36","Speed":11.764705861728507},{"Sample_time":43,"Position":"1.43","Speed":15.55555555555552},{"Sample_time":44,"Position":"1.43","Speed":0},{"Sample_time":45,"Position":"1.48","Speed":10.204081651271764},{"Sample_time":46,"Position":"1.54","Speed":10.000000000000009},{"Sample_time":47,"Position":"1.61","Speed":12.068965523442825},{"Sample_time":48,"Position":"1.61","Speed":0},{"Sample_time":49,"Position":"1.66","Speed":10.63829786559473},{"Sample_time":50,"Position":"1.72","Speed":12.765957479187685},{"Sample_time":51,"Position":"1.79","Speed":11.666666666666677},{"Sample_time":52,"Position":"1.79","Speed":0},{"Sample_time":53,"Position":"1.85","Speed":10.000000000000009},{"Sample_time":54,"Position":"1.91","Speed":9.999999999999972},{"Sample_time":55,"Position":"1.98","Speed":14.893617011832685},{"Sample_time":56,"Position":"1.98","Speed":0},{"Sample_time":57,"Position":"2.03","Speed":8.333333333333304},{"Sample_time":58,"Position":"2.09","Speed":13.043478277770705},{"Sample_time":59,"Position":"2.09","Speed":0},{"Sample_time":60,"Position":"2.15","Speed":12.765957438713732},{"Sample_time":61,"Position":"2.15","Speed":0},{"Sample_time":62,"Position":"2.21","Speed":10.909090909090919},{"Sample_time":63,"Position":"2.27","Speed":12.24489794428873},{"Sample_time":64,"Position":"2.34","Speed":16.666666713971903},{"Sample_time":65,"Position":"2.34","Speed":0},{"Sample_time":66,"Position":"2.39","Speed":8.474576284028625},{"Sample_time":67,"Position":"2.45","Speed":14.634146309551362},{"Sample_time":68,"Position":"2.45","Speed":0},{"Sample_time":69,"Position":"2.52","Speed":14.285714268336806},{"Sample_time":70,"Position":"2.57","Speed":10.869565231475539},{"Sample_time":71,"Position":"2.57","Speed":0},{"Sample_time":72,"Position":"2.63","Speed":14.634146362738138},{"Sample_time":73,"Position":"2.70","Speed":12.72727272727278},{"Sample_time":74,"Position":"2.70","Speed":0},{"Sample_time":75,"Position":"2.75","Speed":10.869565231475539},{"Sample_time":76,"Position":"2.75","Speed":0},{"Sample_time":77,"Position":"2.81","Speed":13.63636366407242},{"Sample_time":78,"Position":"2.88","Speed":13.999999999999968},{"Sample_time":79,"Position":"2.93","Speed":7.936507921490431},{"Sample_time":80,"Position":"2.93","Speed":0},{"Sample_time":81,"Position":"2.99","Speed":14.634146362738138},{"Sample_time":82,"Position":"3.05","Speed":10.909090909090839},{"Sample_time":83,"Position":"3.05","Speed":0},{"Sample_time":84,"Position":"3.09","Speed":7.272727272727279},{"Sample_time":85,"Position":"3.11","Speed":5.000000000000004},{"Sample_time":86,"Position":"3.11","Speed":0},{"Sample_time":87,"Position":"3.13","Speed":4.081632648096243},{"Sample_time":88,"Position":"3.13","Speed":0},{"Sample_time":89,"Position":"3.15","Speed":4.444444444444449},{"Sample_time":90,"Position":"3.15","Speed":0},{"Sample_time":91,"Position":"3.16","Speed":2.1739130462951657},{"Sample_time":92,"Position":"3.16","Speed":0},{"Sample_time":93,"Position":"3.16","Speed":0},{"Sample_time":94,"Position":"3.17","Speed":1.9999999999999576},{"Sample_time":95,"Position":"3.17","Speed":0},{"Sample_time":96,"Position":"3.17","Speed":0},{"Sample_time":97,"Position":"3.17","Speed":0},{"Sample_time":98,"Position":"3.17","Speed":0},{"Sample_time":99,"Position":"3.17","Speed":0},{"Sample_time":100,"Position":"3.17","Speed":0},{"Sample_time":101,"Speed":null}]
+[
+    {
+        "Sample_time": 0,
+        "Position": "0.00",
+        "Speed": 0,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 1,
+        "Position": "0.02",
+        "Speed": 1.941747581804829,
+        "Time": 10.299999952316284
+    },
+    {
+        "Sample_time": 2,
+        "Position": "0.05",
+        "Speed": 2.702702711410467,
+        "Time": 11.099999964237213
+    },
+    {
+        "Sample_time": 3,
+        "Position": "0.12",
+        "Speed": 6.9306930529464745,
+        "Time": 10.100000023841858
+    },
+    {
+        "Sample_time": 4,
+        "Position": "0.17",
+        "Speed": 4.347826086956523,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 5,
+        "Position": "0.27",
+        "Speed": 9.259259249038985,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 6,
+        "Position": "0.32",
+        "Speed": 4.901960790042736,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 7,
+        "Position": "0.44",
+        "Speed": 11.320754691518129,
+        "Time": 10.600000023841858
+    },
+    {
+        "Sample_time": 8,
+        "Position": "0.49",
+        "Speed": 4.545454545454544,
+        "Time": 11
+    },
+    {
+        "Sample_time": 9,
+        "Position": "0.61",
+        "Speed": 11.11111109884678,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 10,
+        "Position": "0.67",
+        "Speed": 5.825242711704636,
+        "Time": 10.300000011920929
+    },
+    {
+        "Sample_time": 11,
+        "Position": "0.80",
+        "Speed": 12.03703702375068,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 12,
+        "Position": "0.85",
+        "Speed": 4.716981121465881,
+        "Time": 10.600000023841858
+    },
+    {
+        "Sample_time": 13,
+        "Position": "0.96",
+        "Speed": 10.280373843229121,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 14,
+        "Position": "1.06",
+        "Speed": 9.009009038034897,
+        "Time": 11.099999964237213
+    },
+    {
+        "Sample_time": 15,
+        "Position": "1.12",
+        "Speed": 5.172413782472423,
+        "Time": 11.600000023841858
+    },
+    {
+        "Sample_time": 16,
+        "Position": "1.23",
+        "Speed": 9.243697497511496,
+        "Time": 11.899999976158142
+    },
+    {
+        "Sample_time": 17,
+        "Position": "1.28",
+        "Speed": 4.2372881313125115,
+        "Time": 11.800000011920929
+    },
+    {
+        "Sample_time": 18,
+        "Position": "1.39",
+        "Speed": 9.243697497511496,
+        "Time": 11.899999976158142
+    },
+    {
+        "Sample_time": 19,
+        "Position": "1.48",
+        "Speed": 8.910891120661226,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 20,
+        "Position": "1.55",
+        "Speed": 6.42201836267091,
+        "Time": 10.899999976158142
+    },
+    {
+        "Sample_time": 21,
+        "Position": "1.65",
+        "Speed": 8.403361361374085,
+        "Time": 11.899999976158142
+    },
+    {
+        "Sample_time": 22,
+        "Position": "1.71",
+        "Speed": 5.607476641761345,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 23,
+        "Position": "1.79",
+        "Speed": 7.4766355223484595,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 24,
+        "Position": "1.84",
+        "Speed": 4.901960790042742,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 25,
+        "Position": "1.91",
+        "Speed": 5.932203383837497,
+        "Time": 11.800000011920929
+    },
+    {
+        "Sample_time": 26,
+        "Position": "1.97",
+        "Speed": 5.405405422820938,
+        "Time": 11.099999964237213
+    },
+    {
+        "Sample_time": 27,
+        "Position": "2.06",
+        "Speed": 8.108108134231408,
+        "Time": 11.099999964237213
+    },
+    {
+        "Sample_time": 28,
+        "Position": "2.14",
+        "Speed": 7.017543874325558,
+        "Time": 11.399999976158142
+    },
+    {
+        "Sample_time": 29,
+        "Position": "2.19",
+        "Speed": 4.629629624519476,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 30,
+        "Position": "2.29",
+        "Speed": 8.620689637454037,
+        "Time": 11.600000023841858
+    },
+    {
+        "Sample_time": 31,
+        "Position": "2.32",
+        "Speed": 2.6086956521738958,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 32,
+        "Position": "2.42",
+        "Speed": 8.547008555716955,
+        "Time": 11.699999988079071
+    },
+    {
+        "Sample_time": 33,
+        "Position": "2.53",
+        "Speed": 10.37735846722494,
+        "Time": 10.600000023841858
+    },
+    {
+        "Sample_time": 34,
+        "Position": "2.59",
+        "Speed": 5.4545454545454595,
+        "Time": 11
+    },
+    {
+        "Sample_time": 35,
+        "Position": "2.70",
+        "Speed": 10.091743141340022,
+        "Time": 10.899999976158142
+    },
+    {
+        "Sample_time": 36,
+        "Position": "2.74",
+        "Speed": 3.9215686320341936,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 37,
+        "Position": "2.87",
+        "Speed": 11.81818181818181,
+        "Time": 11
+    },
+    {
+        "Sample_time": 38,
+        "Position": "2.92",
+        "Speed": 4.672897201467767,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 39,
+        "Position": "3.01",
+        "Speed": 8.737864067556933,
+        "Time": 10.300000011920929
+    },
+    {
+        "Sample_time": 40,
+        "Position": "3.07",
+        "Speed": 5.71428571428572,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 41,
+        "Position": "3.16",
+        "Speed": 7.826086956521766,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 42,
+        "Position": "3.21",
+        "Speed": 4.273504277858459,
+        "Time": 11.699999988079071
+    },
+    {
+        "Sample_time": 43,
+        "Position": "3.30",
+        "Speed": 7.563025187355042,
+        "Time": 11.900000035762787
+    },
+    {
+        "Sample_time": 44,
+        "Position": "3.34",
+        "Speed": 3.703703699615597,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 45,
+        "Position": "3.42",
+        "Speed": 7.407407399231194,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 46,
+        "Position": "3.51",
+        "Speed": 7.69230770014524,
+        "Time": 11.699999988079071
+    },
+    {
+        "Sample_time": 47,
+        "Position": "3.56",
+        "Speed": 4.504504494829235,
+        "Time": 11.100000023841858
+    },
+    {
+        "Sample_time": 48,
+        "Position": "3.66",
+        "Speed": 9.90099013406803,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 49,
+        "Position": "3.71",
+        "Speed": 4.901960790042721,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 50,
+        "Position": "3.80",
+        "Speed": 7.96460176150924,
+        "Time": 11.300000011920929
+    },
+    {
+        "Sample_time": 51,
+        "Position": "3.86",
+        "Speed": 5.504587137902814,
+        "Time": 10.900000035762787
+    },
+    {
+        "Sample_time": 52,
+        "Position": "3.95",
+        "Speed": 8.5714285714286,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 53,
+        "Position": "4.01",
+        "Speed": 5.555555549423354,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 54,
+        "Position": "4.11",
+        "Speed": 8.849557512788104,
+        "Time": 11.300000011920929
+    },
+    {
+        "Sample_time": 55,
+        "Position": "4.16",
+        "Speed": 4.629629624519476,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 56,
+        "Position": "4.24",
+        "Speed": 7.766990282272848,
+        "Time": 10.300000011920929
+    },
+    {
+        "Sample_time": 57,
+        "Position": "4.28",
+        "Speed": 3.7383177611742298,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 58,
+        "Position": "4.33",
+        "Speed": 4.54545454545453,
+        "Time": 11
+    },
+    {
+        "Sample_time": 59,
+        "Position": "4.37",
+        "Speed": 3.773584897172713,
+        "Time": 10.600000023841858
+    },
+    {
+        "Sample_time": 60,
+        "Position": "4.42",
+        "Speed": 4.672897201467767,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 61,
+        "Position": "4.44",
+        "Speed": 1.9801980268136496,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 62,
+        "Position": "4.49",
+        "Speed": 4.237288152716056,
+        "Time": 11.799999952316284
+    },
+    {
+        "Sample_time": 63,
+        "Position": "4.52",
+        "Speed": 2.777777774711636,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 64,
+        "Position": "4.57",
+        "Speed": 4.347826086956584,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 65,
+        "Position": "4.59",
+        "Speed": 1.8181818181817793,
+        "Time": 11
+    },
+    {
+        "Sample_time": 66,
+        "Position": "4.63",
+        "Speed": 3.8461538549711047,
+        "Time": 10.399999976158142
+    },
+    {
+        "Sample_time": 67,
+        "Position": "4.68",
+        "Speed": 4.347826086956506,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 68,
+        "Position": "4.70",
+        "Speed": 1.941747581804874,
+        "Time": 10.299999952316284
+    },
+    {
+        "Sample_time": 69,
+        "Position": "4.76",
+        "Speed": 5.263157905744129,
+        "Time": 11.399999976158142
+    },
+    {
+        "Sample_time": 70,
+        "Position": "4.80",
+        "Speed": 3.5714285752298913,
+        "Time": 11.199999988079071
+    },
+    {
+        "Sample_time": 71,
+        "Position": "4.86",
+        "Speed": 5.88235291367726,
+        "Time": 10.200000047683716
+    },
+    {
+        "Sample_time": 72,
+        "Position": "4.88",
+        "Speed": 1.8518518498077574,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 73,
+        "Position": "4.96",
+        "Speed": 7.339449557338182,
+        "Time": 10.899999976158142
+    },
+    {
+        "Sample_time": 74,
+        "Position": "5.00",
+        "Speed": 3.9215686320341936,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 75,
+        "Position": "5.10",
+        "Speed": 8.695652173913013,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 76,
+        "Position": "5.15",
+        "Speed": 4.5871559482524065,
+        "Time": 10.900000035762787
+    },
+    {
+        "Sample_time": 77,
+        "Position": "5.26",
+        "Speed": 9.32203388888747,
+        "Time": 11.800000011920929
+    },
+    {
+        "Sample_time": 78,
+        "Position": "5.31",
+        "Speed": 4.950495067033992,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 79,
+        "Position": "5.41",
+        "Speed": 9.25925930014041,
+        "Time": 10.799999952316284
+    },
+    {
+        "Sample_time": 80,
+        "Position": "5.53",
+        "Speed": 10.810810787590118,
+        "Time": 11.100000023841858
+    },
+    {
+        "Sample_time": 81,
+        "Position": "5.58",
+        "Speed": 4.385964898521535,
+        "Time": 11.400000035762787
+    },
+    {
+        "Sample_time": 82,
+        "Position": "5.70",
+        "Speed": 12.00000000000001,
+        "Time": 10
+    },
+    {
+        "Sample_time": 83,
+        "Position": "5.75",
+        "Speed": 4.201680680687033,
+        "Time": 11.899999976158142
+    },
+    {
+        "Sample_time": 84,
+        "Position": "5.86",
+        "Speed": 10.67961169992659,
+        "Time": 10.299999952316284
+    },
+    {
+        "Sample_time": 85,
+        "Position": "5.91",
+        "Speed": 4.201680680687033,
+        "Time": 11.899999976158142
+    },
+    {
+        "Sample_time": 86,
+        "Position": "6.03",
+        "Speed": 11.21495328352269,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 87,
+        "Position": "6.08",
+        "Speed": 4.807692291159937,
+        "Time": 10.400000035762787
+    },
+    {
+        "Sample_time": 88,
+        "Position": "6.19",
+        "Speed": 10.280373843229151,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 89,
+        "Position": "6.30",
+        "Speed": 8.870967758991918,
+        "Time": 12.399999976158142
+    },
+    {
+        "Sample_time": 90,
+        "Position": "6.37",
+        "Speed": 6.36363636363639,
+        "Time": 11
+    },
+    {
+        "Sample_time": 91,
+        "Position": "6.46",
+        "Speed": 8.910891120661203,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 92,
+        "Position": "6.54",
+        "Speed": 7.920792107254424,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 93,
+        "Position": "6.65",
+        "Speed": 9.909909888624293,
+        "Time": 11.100000023841858
+    },
+    {
+        "Sample_time": 94,
+        "Position": "6.70",
+        "Speed": 4.424778756394013,
+        "Time": 11.300000011920929
+    },
+    {
+        "Sample_time": 95,
+        "Position": "6.82",
+        "Speed": 11.650485490828986,
+        "Time": 10.299999952316284
+    },
+    {
+        "Sample_time": 96,
+        "Position": "6.88",
+        "Speed": 5.4545454545454195,
+        "Time": 11
+    },
+    {
+        "Sample_time": 97,
+        "Position": "6.98",
+        "Speed": 9.523809523809575,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 98,
+        "Position": "7.04",
+        "Speed": 5.4545454545454195,
+        "Time": 11
+    },
+    {
+        "Sample_time": 99,
+        "Position": "7.13",
+        "Speed": 8.999999999999986,
+        "Time": 10
+    },
+    {
+        "Sample_time": 100,
+        "Position": "7.18",
+        "Speed": 4.950495037818893,
+        "Time": 10.100000023841858
+    },
+    {
+        "Sample_time": 101,
+        "Position": "7.24",
+        "Speed": 5.309734507672879,
+        "Time": 11.300000011920929
+    },
+    {
+        "Sample_time": 102,
+        "Position": "7.33",
+        "Speed": 8.18181818181817,
+        "Time": 11
+    },
+    {
+        "Sample_time": 103,
+        "Position": "7.42",
+        "Speed": 8.823529370515802,
+        "Time": 10.200000047683716
+    },
+    {
+        "Sample_time": 104,
+        "Position": "7.46",
+        "Speed": 3.571428556223308,
+        "Time": 11.200000047683716
+    },
+    {
+        "Sample_time": 105,
+        "Position": "7.55",
+        "Speed": 8.910891120661203,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 106,
+        "Position": "7.60",
+        "Speed": 4.237288131312493,
+        "Time": 11.800000011920929
+    },
+    {
+        "Sample_time": 107,
+        "Position": "7.70",
+        "Speed": 8.695652173913091,
+        "Time": 11.5
+    },
+    {
+        "Sample_time": 108,
+        "Position": "7.75",
+        "Speed": 4.424778756394013,
+        "Time": 11.300000011920929
+    },
+    {
+        "Sample_time": 109,
+        "Position": "7.85",
+        "Speed": 9.259259249038951,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 110,
+        "Position": "7.91",
+        "Speed": 5.405405393795099,
+        "Time": 11.100000023841858
+    },
+    {
+        "Sample_time": 111,
+        "Position": "8.00",
+        "Speed": 8.108108090692568,
+        "Time": 11.100000023841858
+    },
+    {
+        "Sample_time": 112,
+        "Position": "8.12",
+        "Speed": 10.909090909090839,
+        "Time": 11
+    },
+    {
+        "Sample_time": 113,
+        "Position": "8.16",
+        "Speed": 3.6697247586019577,
+        "Time": 10.900000035762787
+    },
+    {
+        "Sample_time": 114,
+        "Position": "8.26",
+        "Speed": 9.52380952380949,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 115,
+        "Position": "8.32",
+        "Speed": 5.825242711704679,
+        "Time": 10.300000011920929
+    },
+    {
+        "Sample_time": 116,
+        "Position": "8.43",
+        "Speed": 9.734513315413912,
+        "Time": 11.299999952316284
+    },
+    {
+        "Sample_time": 117,
+        "Position": "8.47",
+        "Speed": 3.84615385497119,
+        "Time": 10.399999976158142
+    },
+    {
+        "Sample_time": 118,
+        "Position": "8.59",
+        "Speed": 10.810810845641797,
+        "Time": 11.099999964237213
+    },
+    {
+        "Sample_time": 119,
+        "Position": "8.65",
+        "Speed": 5.6074766417613855,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 120,
+        "Position": "8.75",
+        "Speed": 9.345794402935534,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 121,
+        "Position": "8.80",
+        "Speed": 4.901960761397746,
+        "Time": 10.200000047683716
+    },
+    {
+        "Sample_time": 122,
+        "Position": "8.89",
+        "Speed": 8.18181818181817,
+        "Time": 11
+    },
+    {
+        "Sample_time": 123,
+        "Position": "8.93",
+        "Speed": 3.5087719188171653,
+        "Time": 11.400000035762787
+    },
+    {
+        "Sample_time": 124,
+        "Position": "9.04",
+        "Speed": 9.482758601199382,
+        "Time": 11.600000023841858
+    },
+    {
+        "Sample_time": 125,
+        "Position": "9.09",
+        "Speed": 4.716981121465955,
+        "Time": 10.600000023841858
+    },
+    {
+        "Sample_time": 126,
+        "Position": "9.17",
+        "Speed": 7.843137264068387,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 127,
+        "Position": "9.21",
+        "Speed": 4.000000000000092,
+        "Time": 10
+    },
+    {
+        "Sample_time": 128,
+        "Position": "9.31",
+        "Speed": 9.52380952380949,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 129,
+        "Position": "9.36",
+        "Speed": 4.545454545454449,
+        "Time": 11
+    },
+    {
+        "Sample_time": 130,
+        "Position": "9.44",
+        "Speed": 7.920792107254424,
+        "Time": 10.099999964237213
+    },
+    {
+        "Sample_time": 131,
+        "Position": "9.47",
+        "Speed": 2.941176474025754,
+        "Time": 10.199999988079071
+    },
+    {
+        "Sample_time": 132,
+        "Position": "9.50",
+        "Speed": 2.678571431422359,
+        "Time": 11.199999988079071
+    },
+    {
+        "Sample_time": 133,
+        "Position": "9.59",
+        "Speed": 8.333333324135072,
+        "Time": 10.800000011920929
+    },
+    {
+        "Sample_time": 134,
+        "Position": "9.67",
+        "Speed": 7.619047619047626,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 135,
+        "Position": "9.72",
+        "Speed": 4.587155973336425,
+        "Time": 10.899999976158142
+    },
+    {
+        "Sample_time": 136,
+        "Position": "9.77",
+        "Speed": 4.9019607613975715,
+        "Time": 10.200000047683716
+    },
+    {
+        "Sample_time": 137,
+        "Position": "9.87",
+        "Speed": 9.61538463742772,
+        "Time": 10.399999976158142
+    },
+    {
+        "Sample_time": 138,
+        "Position": "9.92",
+        "Speed": 4.385964898521612,
+        "Time": 11.400000035762787
+    },
+    {
+        "Sample_time": 139,
+        "Position": "10.02",
+        "Speed": 9.09090909090906,
+        "Time": 11
+    },
+    {
+        "Sample_time": 140,
+        "Position": "10.13",
+        "Speed": 9.482758649925094,
+        "Time": 11.599999964237213
+    },
+    {
+        "Sample_time": 141,
+        "Position": "10.19",
+        "Speed": 5.714285714285593,
+        "Time": 10.5
+    },
+    {
+        "Sample_time": 142,
+        "Position": "10.23",
+        "Speed": 3.7383177611743124,
+        "Time": 10.699999988079071
+    },
+    {
+        "Sample_time": 143,
+        "Position": "10.25",
+        "Speed": 1.7543859594085827,
+        "Time": 11.400000035762787
+    },
+    {
+        "Sample_time": 144,
+        "Position": "10.25",
+        "Speed": 0,
+        "Time": 11.199999988079071
+    }
+]
