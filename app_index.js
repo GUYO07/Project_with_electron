@@ -160,55 +160,55 @@ value2.textContent = input2.value;
 input2.addEventListener("input", (event) => {
   value2.textContent = event.target.value;
   if (event.target.value == 25) {
-    s2 = 10 * 8;
+    s2 = 10 * 60;
   } else if (event.target.value == 24) {
-    s2 = 10 * 8;
+    s2 = 10 * 58;
   } else if (event.target.value == 23) {
-    s2 = 10 * 9;
+    s2 = 10 * 55;
   } else if (event.target.value == 22) {
-    s2 = 10 * 9;
+    s2 = 10 * 52;
   } else if (event.target.value == 21) {
-    s2 = 10 * 10;
+    s2 = 10 * 49;
   } else if (event.target.value == 20) {
-    s2 = 10 * 11;
+    s2 = 10 * 45;
   } else if (event.target.value == 19) {
-    s2 = 10 * 11;
-  } else if (event.target.value == 18) {
-    s2 = 10 * 12;
-  } else if (event.target.value == 17) {
-    s2 = 10 * 13;
-  } else if (event.target.value == 16) {
-    s2 = 10 * 13;
-  } else if (event.target.value == 15) {
-    s2 = 10 * 14;
-  } else if (event.target.value == 14) {
-    s2 = 10 * 15;
-  } else if (event.target.value == 13) {
-    s2 = 10 * 16;
-  } else if (event.target.value == 12) {
-    s2 = 10 * 18;
-  } else if (event.target.value == 11) {
-    s2 = 10 * 19;
-  } else if (event.target.value == 10) {
-    s2 = 10 * 21;
-  } else if (event.target.value == 9) {
-    s2 = 10 * 23;
-  } else if (event.target.value == 8) {
-    s2 = 10 * 26;
-  } else if (event.target.value == 7) {
-    s2 = 10 * 30;
-  } else if (event.target.value == 6) {
-    s2 = 10 * 34;
-  } else if (event.target.value == 5) {
     s2 = 10 * 42;
+  } else if (event.target.value == 18) {
+    s2 = 10 * 38;
+  } else if (event.target.value == 17) {
+    s2 = 10 * 34;
+  } else if (event.target.value == 16) {
+    s2 = 10 * 30;
+  } else if (event.target.value == 15) {
+    s2 = 10 * 27;
+  } else if (event.target.value == 14) {
+    s2 = 10 * 25;
+  } else if (event.target.value == 13) {
+    s2 = 10 * 22;
+  } else if (event.target.value == 12) {
+    s2 = 10 * 17;
+  } else if (event.target.value == 11) {
+    s2 = 10 * 13;
+  } else if (event.target.value == 10) {
+    s2 = 10 * 10;
+  } else if (event.target.value == 9) {
+    s2 = 10 * 9;
+  } else if (event.target.value == 8) {
+    s2 = 10 * 7;
+  } else if (event.target.value == 7) {
+    s2 = 10 * 6;
+  } else if (event.target.value == 6) {
+    s2 = 10 * 5;
+  } else if (event.target.value == 5) {
+    s2 = 10 * 3;
   } else if (event.target.value == 4) {
-    s2 = 10 * 50;
+    s2 = 10 * 2;
   } else if (event.target.value == 3) {
-    s2 = 10 * 65;
+    s2 = 10 * 1;
   } else if (event.target.value == 2) {
-    s2 = 10 * 95;
+    s2 = 10 * 1;
   } else if (event.target.value == 1) {
-    s2 = 10 * 155;
+    s2 = 10 * 1;
   }
   cb2();
 });

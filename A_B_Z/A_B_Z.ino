@@ -1,8 +1,8 @@
 const int pulseAPin = 2; // Pulse A input pin
 const int pulseBPin = 3; // Pulse B input pin
 const int referencePin = 4; // Reference mark input pin
-const float micrometersPerPulse = 0.5*4.09; // Resolution of linear scale in micrometers per pulse
-const float millimetersPerMicrometer = 0.001; // Conversion factor from micrometers to millimeters
+const double micrometersPerPulse = 0.5*4.5; // Resolution of linear scale in micrometers per pulse
+const double millimetersPerMicrometer = 0.001; // Conversion factor from micrometers to millimeters
 const int pulseDuration = 1; // Duration of each pulse, in microseconds
 
 
@@ -20,13 +20,13 @@ void setup() {
 }
 
 void loop() {
-  float distance = pulseCount * micrometersPerPulse * millimetersPerMicrometer;
+  double distance = pulseCount * micrometersPerPulse * millimetersPerMicrometer;
 /*if (direction) {
     distance = -distance;
   }
 */
   // Output distance to the serial monitor
-  Serial.println(distance, 2); // Display distance with two decimal places
+  Serial.println(distance, 5); // Display distance with two decimal places
   delay(1);
   //Serial.println(position);
 }
@@ -40,7 +40,7 @@ void handlePulseA() {
   if (direction) {
     pulseCount++;
   } else {
-    pulseCount--;
+    pulseCount-=1.125;
   }
 }
 
