@@ -220,7 +220,7 @@ function cb1() {
     console.log(s1 + c_1);
     send.send(s1 + c_1);
     //get_p();
-    get_p2();
+    //get_p2();
   } else {
     console.log(5);
     if (s1 > -1 && c_1 > 0) {
