@@ -9,10 +9,12 @@ void setup() {
   digitalWrite(8, 1);
 }
 void loop() {
-  if (Serial.available() > 0) {  //ถ้าคอมพิวเตอร์ส่งข้อมูลมาใหจะทำใน if นี้
+  while (!Serial.available());
+  x = Serial.readString().toInt();
+  /*if (Serial.available() > 0) {  //ถ้าคอมพิวเตอร์ส่งข้อมูลมาใหจะทำใน if นี้
     x = Serial.readString().toInt();        //Arduino ส่งค่าในตัวแปร key เข้าคอมพิวเตอร์ Serial Monitor
     Serial.println(x);
-  }
+  }*/
   analogWrite(3, x/10);
   y=x%10;
   if (y == 4) {
