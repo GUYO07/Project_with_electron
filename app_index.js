@@ -49,6 +49,12 @@ function set_parameter() {
   c_1 = 0;
   c_2 = 0;
   ps = 0;
+  posiotion_x = 0;
+  posiotion_y = 0;
+  limit_x1 = 0;
+  limit_x2 = 0;
+  limit_y3 = 0;
+  limit_y4 = 0;
 }
 
 function port_select1() {
@@ -63,8 +69,32 @@ function port_read1() {
   const port2 = new SerialPort({ path: value, baudRate: 115200 });
   const parser = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   parser.on("data", (data) => {
-    document.getElementById("position1").innerHTML = data;
     ps = data;
+    var str = data;
+    var n = str.split(" ");
+    posiotion_x = Number(n[0]);
+    posiotion_y = Number(n[1]);
+    limit_x1 = Number(n[2]);
+    limit_x2 = Number(n[3]);
+    limit_y3 = Number(n[4]);
+    limit_y4 = Number(n[5]);
+    document.getElementById("position1").innerHTML = data;
+    if (limit_x1 == 1) {
+      send.send(4);
+      setTimeout(() => {  send.send(5);  }, 1000); 
+    }
+    if(limit_x2==1){
+      send.send(6);
+      setTimeout(() => {  send.send(5);  }, 1000);
+    }
+    if(limit_y3==1){
+      send2.send(604);
+      setTimeout(() => {  send2.send(5);  }, 1000);
+    }
+    if(limit_y4==1){
+      send2.send(606);
+      setTimeout(() => {  send2.send(5);  }, 1000);
+    }
   });
 }
 function port_select2() {

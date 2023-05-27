@@ -87,9 +87,9 @@ void handlePulseA() {
 
   // Increment or decrement the pulse count depending on the direction of movement
   if (direction) {
-    pulseCount++;
+    pulseCount--;
   } else {
-    pulseCount-=1;
+    pulseCount++;
   }
 }
 
