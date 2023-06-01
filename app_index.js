@@ -81,19 +81,48 @@ function port_read1() {
     document.getElementById("position1").innerHTML = data;
     if (limit_x1 == 1) {
       send.send(4);
-      setTimeout(() => {  send.send(5);  }, 1000); 
+      setTimeout(() => {
+        send.send(5);
+      }, 1000);
     }
-    if(limit_x2==1){
+    if (limit_x2 == 1) {
+      //port2.write('1');
       send.send(6);
-      setTimeout(() => {  send.send(5);  }, 1000);
+      setTimeout(() => {
+        send.send(5);
+      }, 1000);
+      port2.write('1', function(err) {
+        if (err) {
+          return console.log('Error on write: ', err.message)
+        }
+        console.log('message written 1')
+      })
+      setTimeout(() => {
+        port2.write('0', function(err) {
+          if (err) {
+            return console.log('Error on write: ', err.message)
+          }
+          console.log('message written 0')
+        })
+      }, 3000);
+      /*port2.write('0', function(err) {
+        if (err) {
+          return console.log('Error on write: ', err.message)
+        }
+        console.log('message written 0')
+      })*/
     }
-    if(limit_y3==1){
+    if (limit_y3 == 1) {
       send2.send(604);
-      setTimeout(() => {  send2.send(5);  }, 1000);
+      setTimeout(() => {
+        send2.send(5);
+      }, 1000);
     }
-    if(limit_y4==1){
+    if (limit_y4 == 1) {
       send2.send(606);
-      setTimeout(() => {  send2.send(5);  }, 1000);
+      setTimeout(() => {
+        send2.send(5);
+      }, 1000);
     }
   });
 }

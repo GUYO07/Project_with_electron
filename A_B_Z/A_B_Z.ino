@@ -15,6 +15,7 @@ int l1=0;
 int l2=0;
 int l3=0;
 int l4=0;
+int x=0;
 volatile long pulseCount = 0; // Keeps track of the number of pulses received
 volatile long pulseCount2 = 0; // Keeps track of the number of pulses received
 volatile bool referenceDetected = false; // Indicates whether the reference mark has been detected
@@ -36,6 +37,9 @@ void setup() {
 }
 
 void loop() {
+   if (Serial.available() > 0) {  //ถ้าคอมพิวเตอร์ส่งข้อมูลมาใหจะทำใน if นี้
+      x = Serial.readString().toInt();       
+  }
   limitSwitch1.loop(); // MUST call the loop() function first
   limitSwitch2.loop(); // MUST call the loop() function first
   limitSwitch3.loop(); // MUST call the loop() function first
@@ -64,8 +68,12 @@ void loop() {
   if(limitSwitch4.isReleased()){
     l4=0;
   }
+  if(x%10==1){
+   pulseCount=0;
+   }
   double distance = pulseCount * micrometersPerPulse * millimetersPerMicrometer;
   double distance2 = pulseCount2 * micrometersPerPulse * millimetersPerMicrometer*5.8;
+  
   Serial.print(distance, 5); // Display distance with two decimal places
   Serial.print(" ");
   Serial.print(distance2, 5); // Display distance with two decimal places
@@ -87,9 +95,9 @@ void handlePulseA() {
 
   // Increment or decrement the pulse count depending on the direction of movement
   if (direction) {
-    pulseCount--;
-  } else {
     pulseCount++;
+  } else {
+    pulseCount--;
   }
 }
 
