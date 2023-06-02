@@ -8,7 +8,7 @@ const int pulseAPin = 2; // Pulse A input pin
 const int pulseBPin = 3; // Pulse B input pin
 const int pulseA2Pin = 18; // Pulse A input pin
 const int pulseB2Pin = 19; // Pulse B input pin
-const double micrometersPerPulse = 0.5*4.5; // Resolution of linear scale in micrometers per pulse
+const double micrometersPerPulse = 4; // Resolution of linear scale in micrometers per pulse
 const double millimetersPerMicrometer = 0.001; // Conversion factor from micrometers to millimeters
 const int pulseDuration = 1; // Duration of each pulse, in microseconds
 int l1=0;
@@ -72,7 +72,7 @@ void loop() {
    pulseCount=0;
    }
   double distance = pulseCount * micrometersPerPulse * millimetersPerMicrometer;
-  double distance2 = pulseCount2 * micrometersPerPulse * millimetersPerMicrometer*5.8;
+  double distance2 = pulseCount2 * micrometersPerPulse * millimetersPerMicrometer;
   
   Serial.print(distance, 5); // Display distance with two decimal places
   Serial.print(" ");

@@ -55,6 +55,8 @@ function set_parameter() {
   limit_x2 = 0;
   limit_y3 = 0;
   limit_y4 = 0;
+  status_motor1 = 0;
+  status_motor2 = 0;
 }
 
 function port_select1() {
@@ -79,46 +81,51 @@ function port_read1() {
     limit_y3 = Number(n[4]);
     limit_y4 = Number(n[5]);
     document.getElementById("position1").innerHTML = data;
-    if (limit_x1 == 1) {
-      send.send(4);
+    if (limit_x1 == 1 && status_motor1 == 1) {
+      /*send.send(4);
       setTimeout(() => {
         send.send(5);
-      }, 1000);
+        status_motor1=0;
+      }, 1000);*/
+      /*if (status_motor1 == 1) {
+        send.send(5);
+        status_motor1 = 0;
+        console.log(status_motor1);
+      }*/
+      send.send(5);
+      console.log("ชนจ้า");
     }
-    if (limit_x2 == 1) {
+    if (limit_x2 == 1 && status_motor1 == 1) {
       //port2.write('1');
-      send.send(6);
+      /*send.send(6);
       setTimeout(() => {
         send.send(5);
-      }, 1000);
-      port2.write('1', function(err) {
+        status_mo
+        tor1=0;
+      }, 1000);*/
+      send.send(5);
+      port2.write("1", function (err) {
         if (err) {
-          return console.log('Error on write: ', err.message)
+          return console.log("Error on write: ", err.message);
         }
-        console.log('message written 1')
-      })
+        console.log("message written 1");
+      });
       setTimeout(() => {
-        port2.write('0', function(err) {
+        port2.write("0", function (err) {
           if (err) {
-            return console.log('Error on write: ', err.message)
+            return console.log("Error on write: ", err.message);
           }
-          console.log('message written 0')
-        })
+          console.log("message written 0");
+        });
       }, 3000);
-      /*port2.write('0', function(err) {
-        if (err) {
-          return console.log('Error on write: ', err.message)
-        }
-        console.log('message written 0')
-      })*/
     }
-    if (limit_y3 == 1) {
+    if (limit_y3 == 1 && status_motor2 == 1) {
       send2.send(604);
       setTimeout(() => {
         send2.send(5);
       }, 1000);
     }
-    if (limit_y4 == 1) {
+    if (limit_y4 == 1 && status_motor2 == 1) {
       send2.send(606);
       setTimeout(() => {
         send2.send(5);
@@ -276,14 +283,23 @@ function cb1() {
   // Get the checkbox
   var checkBox = document.getElementById("cb1");
   if (checkBox.checked == false) {
+    if (limit_x1 == 0 && limit_x2 == 0) {
+      status_motor1 = 1;
+    } else if (limit_x1 == 1) {
+      status_motor1 = 0;
+      c_1=4;
+    }
+    else if (limit_x2 == 1) {
+      status_motor1 = 0;
+      c_1=6;
+    }
     console.log(s1 + c_1);
     send.send(s1 + c_1);
-    //get_p();
-    //get_p2();
   } else {
     console.log(5);
     if (s1 > -1 && c_1 > 0) {
       send.send(5);
+      status_motor1 = 0;
     }
   }
 }
@@ -296,11 +312,13 @@ function cb2() {
     }
     console.log(s2 + c_2);
     send2.send(s2 + c_2);
+    status_motor2 = 1;
     //get_p3();
   } else {
     console.log(5);
     if (s2 > -1 && c_2 > 0) {
       send2.send(5);
+      status_motor2 = 0;
     }
   }
 }
@@ -321,6 +339,7 @@ async function get_p() {
     console.log(i);
     if (Number(ps) >= 10) {
       send.send(5);
+      status_motor1 = 0;
     }
     if (((x[i - 1] - x[i - 2]) / t[i - 1]) * 1000 == 0) {
       break;
@@ -364,30 +383,16 @@ async function get_p() {
   });
 }
 
-async function get_p2() {
-  var Speed = 18 / 3; // mm/s=rpm*20 mm /60 s
-  var result = position.position(10, 20, 10, 20, 0.1, Speed);
-  var x_rep = result[0];
-  console.log(x_rep);
-  console.log(typeof x_rep[0]);
-  var x = [];
-  var t = [];
-  /*for (let i = 0; i >= 0; i++) {
-    if (Number(ps) >= Number(x_rep[0])) {
-      console.log("start");
-      s1 = 2300;
-      send.send(s1 + c_1);
-      for (let i = 0; i >= 0; i++) {
-        if (Number(ps) >= Number(x_rep[x_rep.length - 1])) {
-          send.send(5);
-          break;
-        }
-      }
-      console.log("finish");
-      break;
-    }
-  }*/
+function test() {
+  send.send(s1 + c_1);
+  var Speed = Number(input1.value); // mm/s=rpm*20 mm /60 s
+  console.log((20 / (Speed / 3)) * 1000);
+  setTimeout(() => {
+    send.send(5);
+    status_motor1 = 0;
+  }, (20 / (Speed / 3)) * 1000);
 }
+
 async function get_p3() {
   const start = performance.now();
   await delayLog(1, 2500);
