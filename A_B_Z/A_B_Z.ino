@@ -71,6 +71,9 @@ void loop() {
   if(x%10==1){
    pulseCount=0;
    }
+  if(x%10==2){
+   pulseCount2=0;
+   }
   double distance = pulseCount * micrometersPerPulse * millimetersPerMicrometer;
   double distance2 = pulseCount2 * micrometersPerPulse * millimetersPerMicrometer;
   
@@ -108,8 +111,8 @@ void handlePulseA2() {
 
   // Increment or decrement the pulse count depending on the direction of movement
   if (direction2) {
-    pulseCount2++;
+    pulseCount2--;
   } else {
-    pulseCount2-=1;
+    pulseCount2+=1;
   }
 }

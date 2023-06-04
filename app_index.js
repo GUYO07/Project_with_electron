@@ -1,10 +1,13 @@
 const arduino = require("./ports");
 const send = require("./write_arduino");
-const send2 = require("./write_arduino");
+const send2 = require("./write_arduino2");
+const pos = require("./position");
 const { SerialPort } = require("serialport");
 const { ReadlineParser } = require("@serialport/parser-readline");
-const position = require("./position");
 const fs = require("fs");
+const { Timer } = require("easytimer.js");
+let Controller = require("node-pid-controller");
+var timer = new Timer();
 arduino
   .getPortsList()
   .then((result) => {
@@ -49,16 +52,31 @@ function set_parameter() {
   c_1 = 0;
   c_2 = 0;
   ps = 0;
-  posiotion_x = 0;
-  posiotion_y = 0;
+  position_x = 0;
+  position_y = 0;
   limit_x1 = 0;
   limit_x2 = 0;
   limit_y3 = 0;
   limit_y4 = 0;
   status_motor1 = 0;
   status_motor2 = 0;
+  rpm_1 = 0;
+  test_start = 0;
 }
-
+function time_count() {
+  timer.start({ precision: "seconds" });
+  timer.addEventListener("secondsUpdated", function (e) {
+    //console.log(timer.getTimeValues().seconds);
+    document.getElementById("time").innerHTML =
+      timer.getTotalTimeValues().seconds;
+    document.getElementById("speed_mm_s").innerHTML =
+      position_x / timer.getTotalTimeValues().seconds;
+    document.getElementById("speed_rpm").innerHTML =
+      (position_x / timer.getTotalTimeValues().seconds) * 3;
+    rpm_1 = (position_x / timer.getTotalTimeValues().seconds) * 3;
+    //pid();
+  });
+}
 function port_select1() {
   var e = document.getElementById("port1");
   var value = e.value;
@@ -72,38 +90,26 @@ function port_read1() {
   const parser = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
   parser.on("data", (data) => {
     ps = data;
+    var i=0;
     var str = data;
     var n = str.split(" ");
-    posiotion_x = Number(n[0]);
-    posiotion_y = Number(n[1]);
+    position_x = Number(n[0]);
+    position_y = Number(n[1]);
     limit_x1 = Number(n[2]);
     limit_x2 = Number(n[3]);
     limit_y3 = Number(n[4]);
     limit_y4 = Number(n[5]);
     document.getElementById("position1").innerHTML = data;
     if (limit_x1 == 1 && status_motor1 == 1) {
-      /*send.send(4);
-      setTimeout(() => {
-        send.send(5);
-        status_motor1=0;
-      }, 1000);*/
-      /*if (status_motor1 == 1) {
-        send.send(5);
-        status_motor1 = 0;
-        console.log(status_motor1);
-      }*/
       send.send(5);
+      timer.stop();
+      status_motor1 = 0;
       console.log("ชนจ้า");
     }
     if (limit_x2 == 1 && status_motor1 == 1) {
-      //port2.write('1');
-      /*send.send(6);
-      setTimeout(() => {
-        send.send(5);
-        status_mo
-        tor1=0;
-      }, 1000);*/
       send.send(5);
+      timer.stop();
+      status_motor1 = 0;
       port2.write("1", function (err) {
         if (err) {
           return console.log("Error on write: ", err.message);
@@ -116,21 +122,38 @@ function port_read1() {
             return console.log("Error on write: ", err.message);
           }
           console.log("message written 0");
+          status_motor1 = 0;
         });
       }, 3000);
     }
     if (limit_y3 == 1 && status_motor2 == 1) {
-      send2.send(604);
+      send2.send(5);
+      timer.stop();
+      status_motor2 = 0;
+      console.log("ชนจ้า");
+      port2.write("2", function (err) {
+        if (err) {
+          return console.log("Error on write: ", err.message);
+        }
+        console.log("message written 2");
+      });
       setTimeout(() => {
-        send2.send(5);
-      }, 1000);
+        port2.write("0", function (err) {
+          if (err) {
+            return console.log("Error on write: ", err.message);
+          }
+          console.log("message written 0");
+          status_motor1 = 0;
+        });
+      }, 3000);
     }
     if (limit_y4 == 1 && status_motor2 == 1) {
-      send2.send(606);
-      setTimeout(() => {
-        send2.send(5);
-      }, 1000);
+      send2.send(5);
+      timer.stop();
+      status_motor2 = 0;
+      console.log("ชนจ้า");
     }
+    
   });
 }
 function port_select2() {
@@ -165,6 +188,80 @@ function c2() {
   cb2();
 }
 
+function pid() {
+  var speed_taget = Number(document.getElementById("speed1").innerHTML);
+  let ctr = new Controller({
+    k_p: 1, //1
+    k_i: 0.5, //0.05
+    k_d: 0, //.002
+    dt: 4, //0
+  });
+  ctr.setTarget(speed_taget); // 120km/h
+  let goalReached = false;
+  /* while (!goalReached) {
+    let output = rpm_1;
+    let input  = ctr.update(output);
+    console.log(Math.ceil(output));
+    console.log(Math.ceil(input));
+    //pid_con(Math.ceil(input));
+    goalReached = (input === 0) ? true : false; // in the case of continuous control, you let this variable 'false'
+  }*/
+  let output = Math.abs(rpm_1);
+  let input = ctr.update(output);
+  //console.log(output);
+  pid_con(Math.round(input));
+  console.log(Math.round(input));
+}
+function pid_con(x) {
+  if (x == 25) {
+    s1 = 0;
+  } else if (x == 24) {
+    s1 = 10 * 30;
+  } else if (x == 23) {
+    s1 = 10 * 60;
+  } else if (x == 22) {
+    s1 = 10 * 90;
+  } else if (x == 21) {
+    s1 = 10 * 120;
+  } else if (x == 20) {
+    s1 = 10 * 150;
+  } else if (x == 19) {
+    s1 = 10 * 180;
+  } else if (x == 18) {
+    s1 = 10 * 230;
+  } else if (x == 17) {
+    s1 = 10 * 280;
+  } else if (x == 16) {
+    s1 = 10 * 330;
+  } else if (x == 15) {
+    s1 = 10 * 380;
+  } else if (x == 14) {
+    s1 = 10 * 450;
+  } else if (x == 13) {
+    s1 = 10 * 530;
+  } else if (x == 12) {
+    s1 = 10 * 630;
+  } else if (x == 11) {
+    s1 = 10 * 730;
+  } else if (x == 10) {
+    s1 = 10 * 830;
+  } else if (x == 9) {
+    s1 = 10 * 1000;
+  } else if (x == 8) {
+    s1 = 10 * 1200;
+  } else if (x == 7) {
+    s1 = 10 * 1400;
+  } else if (x == 6) {
+    s1 = 10 * 1700;
+  } else if (x == 5) {
+    s1 = 10 * 2500;
+  } else if (x == 4) {
+    s1 = 10 * 2800;
+  } else {
+    s1 = 10 * 28000;
+  }
+  send.send(s1 + c_1);
+}
 const value1 = document.querySelector("#speed1");
 const input1 = document.querySelector("#sp1");
 value1.textContent = input1.value;
@@ -281,25 +378,32 @@ input2.addEventListener("input", (event) => {
 
 function cb1() {
   // Get the checkbox
+  //console.log(typeof Number(document.getElementById("speed1").innerHTML));
   var checkBox = document.getElementById("cb1");
   if (checkBox.checked == false) {
     if (limit_x1 == 0 && limit_x2 == 0) {
       status_motor1 = 1;
     } else if (limit_x1 == 1) {
       status_motor1 = 0;
-      c_1=4;
-    }
-    else if (limit_x2 == 1) {
+      c_1 = 4;
+    } else if (limit_x2 == 1) {
       status_motor1 = 0;
-      c_1=6;
+      c_1 = 6;
     }
     console.log(s1 + c_1);
     send.send(s1 + c_1);
+    time_count();
+    //get_p();
+    setTimeout(() => {
+      status_motor1 = 1;
+      //pid();
+    }, 1000);
   } else {
     console.log(5);
     if (s1 > -1 && c_1 > 0) {
       send.send(5);
       status_motor1 = 0;
+      timer.stop();
     }
   }
 }
@@ -310,10 +414,22 @@ function cb2() {
     if (c_2 == 4) {
       s2 - 3;
     }
+    if (limit_y3 == 0 && limit_y4 == 0) {
+      status_motor2 = 1;
+    } else if (limit_y3 == 1) {
+      status_motor1 = 0;
+      c_2 = 4;
+    } else if (limit_y4 == 1) {
+      status_motor1 = 0;
+      c_2 = 6;
+    }
     console.log(s2 + c_2);
     send2.send(s2 + c_2);
-    status_motor2 = 1;
     //get_p3();
+    setTimeout(() => {
+      status_motor2 = 1;
+      //pid();
+    }, 1000);
   } else {
     console.log(5);
     if (s2 > -1 && c_2 > 0) {
@@ -336,39 +452,77 @@ async function get_p() {
   var x = [];
   var t = [];
   for (let i = 0; i >= 0; i++) {
-    console.log(i);
-    if (Number(ps) >= 10) {
+    pid();
+    //console.log(i);
+    if (position_x >= 20) {
       send.send(5);
       status_motor1 = 0;
-    }
-    if (((x[i - 1] - x[i - 2]) / t[i - 1]) * 1000 == 0) {
+      timer.stop();
       break;
     }
+    /*if (((x[i - 1] - x[i - 2]) / t[i - 1]) * 1000 == 0) {
+      break;
+    }*/
     const start = performance.now();
     await delayLog(i, 10);
-    x.push(ps);
+    x.push(position_x);
     const end = performance.now();
-    t.push(end - start);
+    //t.push(end - start);
+    if (i == 0) {
+      t.push(end - start);
+    } else {
+      t.push(end - start + t[i - 1]);
+    }
   }
   console.log(x);
-
-  //document.getElementById("time").innerHTML = x;
+  var x_ref = pos.position(
+    10,
+    20,
+    0,
+    0,
+    10,
+    Number(document.getElementById("speed1").innerHTML) / 3
+  );
 
   const jsonArray = [];
-
+  var obj = {
+    Sample_time: 0,
+    Position: 0,
+    Position_ref: 0,
+    Speed: 0,
+    Speed_ref: 0,
+    Time: 0,
+  };
+  var ci = 0;
   for (let i = 0; i < x.length; i++) {
     if (i > 0) {
-      var s = ((x[i] - x[i - 1]) / t[i]) * 1000;
+      var s = (x[i] / t[i]) * 1000 * 3;
+      if (x[i] >= 10) {
+        var s_ref = (x_ref[0][i - ci] / t[i]) * 3000;
+      }
     } else {
       var s = 0;
     }
-    const obj = {
-      Sample_time: i,
-      Position: x[i],
-      Speed: s,
-      Time: t[i],
-    };
-
+    if (x[i] >= 10) {
+      obj = {
+        Sample_time: i,
+        Position: x[i],
+        Position_ref: x_ref[0][i - ci],
+        Speed: s,
+        Speed_ref: s_ref,
+        Time: t[i],
+      };
+    } else {
+      obj = {
+        Sample_time: i,
+        Position: x[i],
+        Position_ref: 0,
+        Speed: s,
+        Speed_ref: 0,
+        Time: t[i],
+      };
+      ci++;
+    }
     jsonArray.push(obj);
   }
 
@@ -383,14 +537,14 @@ async function get_p() {
   });
 }
 
-function test() {
+async function test() {
+  c_1 = 6;
+  c_2 = 4;
   send.send(s1 + c_1);
-  var Speed = Number(input1.value); // mm/s=rpm*20 mm /60 s
-  console.log((20 / (Speed / 3)) * 1000);
-  setTimeout(() => {
-    send.send(5);
-    status_motor1 = 0;
-  }, (20 / (Speed / 3)) * 1000);
+  //send2.send(s2 + c_2);s
+  //status_motor2 = 1;
+  status_motor1 = 1;
+  get_p()
 }
 
 async function get_p3() {
