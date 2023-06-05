@@ -83,14 +83,15 @@ function port_select1() {
   document.getElementById("demo").innerHTML = value;
   send.set(value);
 }
-function port_read1() {
+async function port_read1() {
   var e = document.getElementById("port_read1");
   var value = e.value;
   const port2 = new SerialPort({ path: value, baudRate: 115200 });
   const parser = port2.pipe(new ReadlineParser({ delimiter: "\r\n" }));
+  var test_data = [];
   parser.on("data", (data) => {
     ps = data;
-    var i=0;
+    var i = 0;
     var str = data;
     var n = str.split(" ");
     position_x = Number(n[0]);
@@ -153,7 +154,24 @@ function port_read1() {
       status_motor2 = 0;
       console.log("ชนจ้า");
     }
-    
+    if (test_start == 1) {
+      //await delayLog(i, 10);
+      var obj = {
+        x: position_x,
+        y: position_y,
+      };
+      test_data.push(obj);
+    } else if (test_start == 2) {
+      var jsonData = JSON.stringify(test_data);
+
+      fs.writeFile("data.json", jsonData, "utf8", (err) => {
+        if (err) {
+          console.error("Error writing to file:", err);
+        } else {
+          console.log("JSON data saved to file.");
+        }
+      });
+    }
   });
 }
 function port_select2() {
@@ -188,29 +206,19 @@ function c2() {
   cb2();
 }
 
-function pid() {
-  var speed_taget = Number(document.getElementById("speed1").innerHTML);
+function pid(s) {
   let ctr = new Controller({
     k_p: 1, //1
-    k_i: 0.5, //0.05
-    k_d: 0, //.002
-    dt: 4, //0
+    k_i: 0.05, //0.05
+    k_d: 0.02, //.002
+    dt: 0, //0
   });
-  ctr.setTarget(speed_taget); // 120km/h
-  let goalReached = false;
-  /* while (!goalReached) {
-    let output = rpm_1;
-    let input  = ctr.update(output);
-    console.log(Math.ceil(output));
-    console.log(Math.ceil(input));
-    //pid_con(Math.ceil(input));
-    goalReached = (input === 0) ? true : false; // in the case of continuous control, you let this variable 'false'
-  }*/
+  ctr.setTarget(s); // 120km/h
   let output = Math.abs(rpm_1);
   let input = ctr.update(output);
   //console.log(output);
   pid_con(Math.round(input));
-  console.log(Math.round(input));
+  //console.log(Math.round(input));
 }
 function pid_con(x) {
   if (x == 25) {
@@ -429,7 +437,7 @@ function cb2() {
     setTimeout(() => {
       status_motor2 = 1;
       //pid();
-    }, 1000);
+    }, 3000);
   } else {
     console.log(5);
     if (s2 > -1 && c_2 > 0) {
@@ -442,7 +450,6 @@ function cb2() {
 function delayLog(value, delay) {
   return new Promise((resolve) => {
     setTimeout(() => {
-      //console.log(value);
       resolve();
     }, delay);
   });
@@ -451,18 +458,40 @@ function delayLog(value, delay) {
 async function get_p() {
   var x = [];
   var t = [];
+  var n = 0;
+  var x_ref = pos.position(
+    10,
+    20,
+    0,
+    0,
+    10,
+    Number(document.getElementById("speed1").innerHTML) / 3
+  );
+  var xf = x_ref[0];
   for (let i = 0; i >= 0; i++) {
-    pid();
+    //pid();
     //console.log(i);
-    if (position_x >= 20) {
+    if (position_x >= xf[xf.length - 1]) {
       send.send(5);
       status_motor1 = 0;
       timer.stop();
       break;
     }
-    /*if (((x[i - 1] - x[i - 2]) / t[i - 1]) * 1000 == 0) {
-      break;
-    }*/
+    if (position_x < xf[0]) {
+      pid(Number(document.getElementById("speed1").innerHTML));
+    }
+    if (position_x <= xf[n] && position_x >= xf[0]) {
+      //send.send(s1 + c_1);
+      var s = xf[n] - position_x * 100 * 3;
+      // console.log(s);
+      pid(s);
+      status_motor1 = 1;
+    }
+    if (position_x >= xf[n]) {
+      send.send(5);
+      status_motor1 = 0;
+      n++;
+    }
     const start = performance.now();
     await delayLog(i, 10);
     x.push(position_x);
@@ -475,14 +504,6 @@ async function get_p() {
     }
   }
   console.log(x);
-  var x_ref = pos.position(
-    10,
-    20,
-    0,
-    0,
-    10,
-    Number(document.getElementById("speed1").innerHTML) / 3
-  );
 
   const jsonArray = [];
   var obj = {
@@ -537,14 +558,117 @@ async function get_p() {
   });
 }
 
-async function test() {
-  c_1 = 6;
-  c_2 = 4;
+async function square() {0
+  test_start = 1;
+  //1 50,50
+  console.log("run 1");
+  await go_to_target(72.3, 62.5);
+  //2 150,50
+  console.log("run 2");
+  await go_to_target(215, 62.5);
+  //3 150,150
+  console.log("run 3");
+  await go_to_target(215, 155.4);
+  //4 50,150
+  console.log("run 4");
+  await go_to_target(72.3, 155.4);
+  //5 50,50
+  console.log("run 5");
+  await go_to_target(72.3, 62.5);
+  test_start = 2;
+}
+
+async function go_to_target(x, y) {
+  console.log(x + "," + y);
+  var dx = x - position_x;
+  var dy = y - position_y;
+  var a = 0;
+  var b = 0;
+  if (dx > 0) {
+    c_1 = 6;
+  } else if (dx < 0) {
+    c_1 = 4;
+  }
+  /*if (Math.abs((dx / x) * 100) <= 3) {
+    c_1 = 5;
+    a = 1;
+  }*/
+  if (dy > 0) {
+    c_2 = 4;
+  } else if (dy < 0) {
+    c_2 = 6;
+  }
+  /*if (Math.abs((dy / y) * 100) <= 3) {
+    c_2 = 5;
+    b = 1;
+  }*/
+  if (limit_x1 == 0 && limit_x2 == 0) {
+    status_motor1 = 1;
+  } else if (limit_x1 == 1) {
+    status_motor1 = 0;
+    c_1 = 4;
+  } else if (limit_x2 == 1) {
+    status_motor1 = 0;
+    c_1 = 6;
+  }
+  if (limit_y3 == 0 && limit_y4 == 0) {
+    status_motor2 = 1;
+  } else if (limit_y3 == 1) {
+    status_motor1 = 0;
+    c_2 = 4;
+  } else if (limit_y4 == 1) {
+    status_motor1 = 0;
+    c_2 = 6;
+  }
   send.send(s1 + c_1);
-  //send2.send(s2 + c_2);s
-  //status_motor2 = 1;
-  status_motor1 = 1;
-  get_p()
+  send2.send(s2 + c_2);
+  //send2.send(s2 + c_2);
+  setTimeout(() => {
+    status_motor1 = 1;
+    status_motor2 = 1;
+  }, 2000);
+  for (let i = 0; i >= 0; i++) {
+    if (dx > 0) {
+      if (position_x > x) {
+        send.send(5);
+        status_motor1 = 0;
+        a = 1;
+        console.log("a stop");
+      }
+    } else if (dx < 0) {
+      if (position_x < x) {
+        send.send(5);
+        status_motor1 = 0;
+        a = 1;
+        console.log("a stop");
+      }
+    }
+    if (dy > 0) {
+      if (position_y > y) {
+        send2.send(5);
+        status_motor2 = 0;
+        b = 1;
+        console.log("b stop");
+      }
+    } else if (dy < 0) {
+      if (position_y < y) {
+        send2.send(5);
+        status_motor2 = 0;
+        b = 1;
+        console.log("b stop");
+      }
+    }
+    if (a == 1 && b == 1) {
+      break;
+    }
+    if (b == 0) {
+      send2.send(s2 + c_2);
+    }
+    if (a == 0) {
+      send.send(s1 + c_1);
+    }
+    await delayLog(i, 10);
+  }
 }
 
 async function get_p3() {
@@ -554,4 +678,121 @@ async function get_p3() {
   console.log(end - start);
   send2.send(5);
   console.log("finish");
+}
+
+function home() {
+  c_1 = 4;
+  c_2 = 6;
+  send2.send(s2 + c_2);
+  send.send(s1 + c_1);
+  status_motor1 = 1;
+  status_motor2 = 1;
+}
+
+async function test() {
+  //time_count();
+  //tri();
+  //square();
+  //circle();
+  hex();
+  //timer.stop();
+}
+
+async function tri() {
+  var pos = require("./position");
+  var pos_ref = pos.position(
+    220,
+    150,
+    63,
+    158,
+    100,
+    Number(document.getElementById("speed1").innerHTML) / 3
+  );
+  var x = pos_ref[0];
+  var y = pos_ref[1];
+  var pos_ref2 = pos.position(
+    150,
+    79,
+    158,
+    63,
+    100,
+    Number(document.getElementById("speed1").innerHTML) / 3
+  );
+  var x2 = pos_ref2[0];
+  var y2 = pos_ref2[1];
+  await go_to_target(79, 63);
+  await go_to_target(220, 63);
+  for (let i = 0; i >= 0; i++) {
+    if (i == x.length) {
+      break;
+    }
+    await go_to_target(x[i], y[i]);
+  }
+  for (let i = 0; i >= 0; i++) {
+    if (i == x2.length) {
+      break;
+    }
+    await go_to_target(x2[i], y2[i]);
+  }
+}
+
+async function circle() {
+  var pos = require("./position_circle");
+  var pos_ref = pos.position(
+    147,
+    116,
+    52,
+    100,
+    Number(document.getElementById("speed1").innerHTML) / 3
+  );
+  var x = pos_ref[0];
+  var y = pos_ref[1];
+  for (let i = 0; i >= 0; i++) {
+    if (i == x.length) {
+      break;
+    }
+    await go_to_target(x[i], y[i]);
+  }
+}
+
+async function hex() {
+  var s = Number(document.getElementById("speed1").innerHTML);
+  var pos = require("./position");
+  var pos_ref = pos.position(187, 210, 63, 135, 100, s / 3);
+  var x = pos_ref[0];
+  var y = pos_ref[1];
+  var pos_ref2 = pos.position(210, 147, 135, 180, 100, s / 3);
+  var x2 = pos_ref2[0];
+  var y2 = pos_ref2[1];
+  var pos_ref3 = pos.position(147, 82, 180, 135, 100, s / 3);
+  var x3 = pos_ref3[0];
+  var y3 = pos_ref3[1];
+  var pos_ref4 = pos.position(82, 110, 135, 63, 100, s / 3);
+  var x4 = pos_ref4[0];
+  var y4 = pos_ref4[1];
+  await go_to_target(110, 63);
+  for (let i = 0; i >= 0; i++) {
+    if (i == x.length) {
+      break;
+    }
+    await go_to_target(x[i], y[i]);
+  }
+  for (let i = 0; i >= 0; i++) {
+    if (i == x2.length) {
+      break;
+    }
+    await go_to_target(x2[i], y2[i]);
+  }
+  for (let i = 0; i >= 0; i++) {
+    if (i == x3.length) {
+      break;
+    }
+    await go_to_target(x3[i], y3[i]);
+  }
+  for (let i = 0; i >= 0; i++) {
+    if (i == x4.length) {
+      break;
+    }
+    await go_to_target(x4[i], y4[i]);
+  }
 }
