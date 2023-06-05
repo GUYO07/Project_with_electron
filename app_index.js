@@ -62,6 +62,14 @@ function set_parameter() {
   status_motor2 = 0;
   rpm_1 = 0;
   test_start = 0;
+  JSONdata = [];
+  OBJdata = {
+    Position: 0,
+    Position_ref: 0,
+    Speed: 0,
+    Speed_ref: 0,
+    Time: 0,
+  };
 }
 function time_count() {
   timer.start({ precision: "seconds" });
@@ -221,107 +229,17 @@ function pid(s) {
   //console.log(Math.round(input));
 }
 function pid_con(x) {
-  if (x == 25) {
-    s1 = 0;
-  } else if (x == 24) {
-    s1 = 10 * 30;
-  } else if (x == 23) {
-    s1 = 10 * 60;
-  } else if (x == 22) {
-    s1 = 10 * 90;
-  } else if (x == 21) {
-    s1 = 10 * 120;
-  } else if (x == 20) {
-    s1 = 10 * 150;
-  } else if (x == 19) {
-    s1 = 10 * 180;
-  } else if (x == 18) {
-    s1 = 10 * 230;
-  } else if (x == 17) {
-    s1 = 10 * 280;
-  } else if (x == 16) {
-    s1 = 10 * 330;
-  } else if (x == 15) {
-    s1 = 10 * 380;
-  } else if (x == 14) {
-    s1 = 10 * 450;
-  } else if (x == 13) {
-    s1 = 10 * 530;
-  } else if (x == 12) {
-    s1 = 10 * 630;
-  } else if (x == 11) {
-    s1 = 10 * 730;
-  } else if (x == 10) {
-    s1 = 10 * 830;
-  } else if (x == 9) {
-    s1 = 10 * 1000;
-  } else if (x == 8) {
-    s1 = 10 * 1200;
-  } else if (x == 7) {
-    s1 = 10 * 1400;
-  } else if (x == 6) {
-    s1 = 10 * 1700;
-  } else if (x == 5) {
-    s1 = 10 * 2500;
-  } else if (x == 4) {
-    s1 = 10 * 2800;
-  } else {
-    s1 = 10 * 28000;
-  }
-  send.send(s1 + c_1);
+  s1 = x * 10;
+  send.send(s1 + c_1 + " ");
 }
 const value1 = document.querySelector("#speed1");
 const input1 = document.querySelector("#sp1");
 value1.textContent = input1.value;
 input1.addEventListener("input", (event) => {
   value1.textContent = event.target.value;
-  if (event.target.value == 25) {
-    s1 = 0;
-  } else if (event.target.value == 24) {
-    s1 = 10 * 30;
-  } else if (event.target.value == 23) {
-    s1 = 10 * 60;
-  } else if (event.target.value == 22) {
-    s1 = 10 * 90;
-  } else if (event.target.value == 21) {
-    s1 = 10 * 120;
-  } else if (event.target.value == 20) {
-    s1 = 10 * 150;
-  } else if (event.target.value == 19) {
-    s1 = 10 * 180;
-  } else if (event.target.value == 18) {
-    s1 = 10 * 230;
-  } else if (event.target.value == 17) {
-    s1 = 10 * 280;
-  } else if (event.target.value == 16) {
-    s1 = 10 * 330;
-  } else if (event.target.value == 15) {
-    s1 = 10 * 380;
-  } else if (event.target.value == 14) {
-    s1 = 10 * 450;
-  } else if (event.target.value == 13) {
-    s1 = 10 * 530;
-  } else if (event.target.value == 12) {
-    s1 = 10 * 630;
-  } else if (event.target.value == 11) {
-    s1 = 10 * 730;
-  } else if (event.target.value == 10) {
-    s1 = 10 * 830;
-  } else if (event.target.value == 9) {
-    s1 = 10 * 1000;
-  } else if (event.target.value == 8) {
-    s1 = 10 * 1200;
-  } else if (event.target.value == 7) {
-    s1 = 10 * 1400;
-  } else if (event.target.value == 6) {
-    s1 = 10 * 1700;
-  } else if (event.target.value == 5) {
-    s1 = 10 * 2500;
-  } else if (event.target.value == 4) {
-    s1 = 10 * 2800;
-  } else {
-    s1 = 10 * 28000;
-  }
+  s1 = event.target.value * 10;
+  //s1=Math.round(13604*event.target.value**(-0.98555))*10; //13604 * pow(x / 10, -0.9855)
+  //console.log(s1);
   cb1();
 });
 
@@ -330,57 +248,7 @@ const input2 = document.querySelector("#sp2");
 value2.textContent = input2.value;
 input2.addEventListener("input", (event) => {
   value2.textContent = event.target.value;
-  if (event.target.value == 25) {
-    s2 = 10 * 60;
-  } else if (event.target.value == 24) {
-    s2 = 10 * 58;
-  } else if (event.target.value == 23) {
-    s2 = 10 * 55;
-  } else if (event.target.value == 22) {
-    s2 = 10 * 52;
-  } else if (event.target.value == 21) {
-    s2 = 10 * 49;
-  } else if (event.target.value == 20) {
-    s2 = 10 * 45;
-  } else if (event.target.value == 19) {
-    s2 = 10 * 42;
-  } else if (event.target.value == 18) {
-    s2 = 10 * 38;
-  } else if (event.target.value == 17) {
-    s2 = 10 * 34;
-  } else if (event.target.value == 16) {
-    s2 = 10 * 30;
-  } else if (event.target.value == 15) {
-    s2 = 10 * 27;
-  } else if (event.target.value == 14) {
-    s2 = 10 * 25;
-  } else if (event.target.value == 13) {
-    s2 = 10 * 22;
-  } else if (event.target.value == 12) {
-    s2 = 10 * 17;
-  } else if (event.target.value == 11) {
-    s2 = 10 * 13;
-  } else if (event.target.value == 10) {
-    s2 = 10 * 10;
-  } else if (event.target.value == 9) {
-    s2 = 10 * 9;
-  } else if (event.target.value == 8) {
-    s2 = 10 * 7;
-  } else if (event.target.value == 7) {
-    s2 = 10 * 6;
-  } else if (event.target.value == 6) {
-    s2 = 10 * 5;
-  } else if (event.target.value == 5) {
-    s2 = 10 * 3;
-  } else if (event.target.value == 4) {
-    s2 = 10 * 2;
-  } else if (event.target.value == 3) {
-    s2 = 10 * 1;
-  } else if (event.target.value == 2) {
-    s2 = 10 * 1;
-  } else if (event.target.value == 1) {
-    s2 = 10 * 1;
-  }
+  s2 = event.target.value * 10;
   cb2();
 });
 
@@ -399,7 +267,7 @@ function cb1() {
       c_1 = 6;
     }
     console.log(s1 + c_1);
-    send.send(s1 + c_1);
+    send.send(s1 + c_1 + " ");
     time_count();
     //get_p();
     setTimeout(() => {
@@ -432,12 +300,12 @@ function cb2() {
       c_2 = 6;
     }
     console.log(s2 + c_2);
-    send2.send(s2 + c_2);
+    send2.send(s2 + c_2 + " ");
     //get_p3();
     setTimeout(() => {
       status_motor2 = 1;
       //pid();
-    }, 3000);
+    }, 1000);
   } else {
     console.log(5);
     if (s2 > -1 && c_2 > 0) {
@@ -481,7 +349,7 @@ async function get_p() {
       pid(Number(document.getElementById("speed1").innerHTML));
     }
     if (position_x <= xf[n] && position_x >= xf[0]) {
-      //send.send(s1 + c_1);
+      //send.send(s1 + c_1 + " ");
       var s = xf[n] - position_x * 100 * 3;
       // console.log(s);
       pid(s);
@@ -558,8 +426,20 @@ async function get_p() {
   });
 }
 
-async function square() {0
-  test_start = 1;
+function savejson(){
+  var jsonData = JSON.stringify(JSONdata);
+
+  fs.writeFile("data.json", jsonData, "utf8", (err) => {
+    if (err) {
+      console.error("Error writing to file:", err);
+    } else {
+      console.log("JSON data saved to file.");
+    }
+  });
+}
+async function square() {
+  JSONdata = [];
+  //test_start = 1;
   //1 50,50
   console.log("run 1");
   await go_to_target(72.3, 62.5);
@@ -575,10 +455,126 @@ async function square() {0
   //5 50,50
   console.log("run 5");
   await go_to_target(72.3, 62.5);
-  test_start = 2;
+  //test_start = 2;
+  await savejson();
 }
 
 async function go_to_target(x, y) {
+  console.log(x + "," + y);
+  var dx = x - position_x;
+  var dy = y - position_y;
+  var a = 0;
+  var b = 0;
+  var x_ref = pos.position(
+    position_x,
+    x,
+    position_x,
+    y,
+    10,
+    Number(document.getElementById("speed1").innerHTML) / 3
+  );
+  var xf = x_ref[0];
+  var yf = x_ref[1];
+  if (dx > 0) {
+    c_1 = 6;
+  } else if (dx < 0) {
+    c_1 = 4;
+  }
+  /*if (Math.abs((dx / x) * 100) <= 3) {
+    c_1 = 5;
+    a = 1;
+  }*/
+  if (dy > 0) {
+    c_2 = 4;
+  } else if (dy < 0) {
+    c_2 = 6;
+  }
+  /*if (Math.abs((dy / y) * 100) <= 3) {
+    c_2 = 5;
+    b = 1;
+  }*/
+  if (limit_x1 == 0 && limit_x2 == 0) {
+    status_motor1 = 1;
+  } else if (limit_x1 == 1) {
+    status_motor1 = 0;
+    c_1 = 4;
+  } else if (limit_x2 == 1) {
+    status_motor1 = 0;
+    c_1 = 6;
+  }
+  if (limit_y3 == 0 && limit_y4 == 0) {
+    status_motor2 = 1;
+  } else if (limit_y3 == 1) {
+    status_motor1 = 0;
+    c_2 = 4;
+  } else if (limit_y4 == 1) {
+    status_motor1 = 0;
+    c_2 = 6;
+  }
+  send.send(s1 + c_1 + " ");
+  send2.send(s2 + c_2 + " ");
+  //send2.send(s2 + c_2 + " ");
+  setTimeout(() => {
+    status_motor1 = 1;
+    status_motor2 = 1;
+  }, 1000);
+  for (let i = 0; i >= 0; i++) {
+    if (dx > 0) {
+      if (position_x > x) {
+        send.send(5);
+        status_motor1 = 0;
+        a = 1;
+        console.log("a stop");
+      }
+    } else if (dx < 0) {
+      if (position_x < x) {
+        send.send(5);
+        status_motor1 = 0;
+        a = 1;
+        console.log("a stop");
+      }
+    }
+    if (dy > 0) {
+      if (position_y > y) {
+        send2.send(5);
+        status_motor2 = 0;
+        b = 1;
+        console.log("b stop");
+      }
+    } else if (dy < 0) {
+      if (position_y < y) {
+        send2.send(5);
+        status_motor2 = 0;
+        b = 1;
+        console.log("b stop");
+      }
+    }
+    if (a == 1 && b == 1) {
+      break;
+    }
+    if (b == 0) {
+      send2.send(s2 + c_2 + " ");
+    }
+    if (a == 0) {
+      send.send(s1 + c_1 + " ");
+    }
+    OBJdata = {
+      Position_x: position_x,
+      Position_x_ref: xf[i],
+      Position_y: position_y,
+      Position_y_ref: yf[i],
+      Speed_x: position_x / (10 * i),
+      Speed_x_ref: xf[i]/(10*i),
+      Speed_y: position_y / (10 * i),
+      Speed_y_ref: yf[i]/(10*i),
+      Time: 10 * i,
+    };
+    await delayLog(i, 10);
+    JSONdata.push(OBJdata);
+  }
+}
+
+async function go_to_target2(x, y, t) {
   console.log(x + "," + y);
   var dx = x - position_x;
   var dy = y - position_y;
@@ -620,13 +616,20 @@ async function go_to_target(x, y) {
     status_motor1 = 0;
     c_2 = 6;
   }
-  send.send(s1 + c_1);
-  send2.send(s2 + c_2);
-  //send2.send(s2 + c_2);
+  s1 = Math.round((Math.abs(x - position_x) * 3000) / t) * 10;
+  s2 = Math.round((Math.abs(y - position_y) * 3000) / t) * 10;
+  send.send(s1 + c_1 + " ");
+  send2.send(s2 + c_2 + " ");
   setTimeout(() => {
     status_motor1 = 1;
     status_motor2 = 1;
   }, 2000);
+  if (s2 < 10) {
+    s2 = 50;
+  }
+  if (s1 < 10) {
+    s1 = 50;
+  }
   for (let i = 0; i >= 0; i++) {
     if (dx > 0) {
       if (position_x > x) {
@@ -662,10 +665,10 @@ async function go_to_target(x, y) {
       break;
     }
     if (b == 0) {
-      send2.send(s2 + c_2);
+      send2.send(s2 + c_2 + " ");
     }
     if (a == 0) {
-      send.send(s1 + c_1);
+      send.send(s1 + c_1 + " ");
     }
     await delayLog(i, 10);
   }
@@ -681,20 +684,41 @@ async function get_p3() {
 }
 
 function home() {
-  c_1 = 4;
-  c_2 = 6;
-  send2.send(s2 + c_2);
-  send.send(s1 + c_1);
-  status_motor1 = 1;
-  status_motor2 = 1;
+  if (limit_x1 == 0 && limit_x2 == 0) {
+    status_motor1 = 1;
+    c_1 = 4;
+  } else if (limit_x1 == 1) {
+    status_motor1 = 0;
+    c_1 = 4;
+  } else if (limit_x2 == 1) {
+    status_motor1 = 0;
+    c_1 = 6;
+  }
+  if (limit_y3 == 0 && limit_y4 == 0) {
+    status_motor2 = 1;
+    c_2 = 6;
+  } else if (limit_y3 == 1) {
+    status_motor1 = 0;
+    c_2 = 4;
+  } else if (limit_y4 == 1) {
+    status_motor1 = 0;
+    c_2 = 6;
+  }
+  send2.send(s2 + c_2 + " ");
+  send.send(s1 + c_1 + " ");
+
+  setTimeout(() => {
+    status_motor2 = 1;
+    status_motor1 = 1;
+  }, 1000);
 }
 
 async function test() {
   //time_count();
   //tri();
-  //square();
+  square();
   //circle();
-  hex();
+  //hex();
   //timer.stop();
 }
 
@@ -747,11 +771,12 @@ async function circle() {
   );
   var x = pos_ref[0];
   var y = pos_ref[1];
-  for (let i = 0; i >= 0; i++) {
+  await go_to_target(x[0], y[0]);
+  for (let i = 1; i >= 0; i++) {
     if (i == x.length) {
       break;
     }
-    await go_to_target(x[i], y[i]);
+    await go_to_target2(x[i], y[i], 100);
   }
 }
 
