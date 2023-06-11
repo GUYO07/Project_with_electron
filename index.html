@@ -47,8 +47,6 @@
         </select>
         <br>
         <p id="position1"></p>
-        <p id="speed_mm_s"></p>mm/s
-        <p id="speed_rpm"></p>rpm
       </span>
       <span
         ><p>Motor 2</p>
@@ -81,11 +79,98 @@
         </div>
         
       </span>
-      <button type="button" onclick="test()">test</button><button type="button" onclick="home()">Home position</button>
-      <p id="time"></p>
+      <select id="test_type">
+        <option value="">Please select type</option>
+        <option value="1">สามเหลี่ยม</option>
+        <option value="2">สี่เหลี่ยม</option>
+        <option value="3">ห้าเหลี่ยม</option>
+        <option value="4">วงกลม</option>
+      </select>
+      <button type="button" onclick="test()">test</button>
+      <button type="button" onclick="test_t()">setting</button>
+      <button type="button" onclick="home()">Home position</button>
       
     </div>
-
+    <div id="myPopup1" class="popup">
+      <div class="popup-content">
+          <h1 style="color:green;">
+                สามเหลี่ยม
+            </h1>
+            <form>
+              <label >ระยะ</label><br><br>
+              <label >ความสูง :</label>
+              <input type="number" id="" ><br><br>
+              <label >ฐาน :</label>
+              <input type="number" id="fy" ><br><br>
+              <label >จุดเริ่ม :</label><br><br>
+              <label >X :</label>
+              <input type="number" id="fx" ><br><br>
+              <label >Y :</label>
+              <input type="number" id="fy" ><br><br>
+            </form>
+          <button id="closePopup1">
+                ยืนยัน
+            </button>
+      </div>
+    </div>
+    <div id="myPopup2" class="popup">
+      <div class="popup-content">
+          <h1 style="color:green;">
+                สี่เหลี่ยม
+            </h1>
+            <form>
+              <label >ระยะ</label><br><br>
+              <label >X :</label>
+              <input type="number" id="fx" name="fx"><br><br>
+              <label >Y :</label>
+              <input type="number" id="fy" name="fy"><br><br>
+              <label >จุดเริ่ม :</label><br><br>
+              <label >X :</label>
+              <input type="number" id="fx" name="fx"><br><br>
+              <label >Y :</label>
+              <input type="number" id="fy" name="fy"><br><br>
+            </form>
+          <button id="closePopup2">
+            ยืนยัน
+            </button>
+      </div>
+    </div>
+    <div id="myPopup3" class="popup">
+      <div class="popup-content">
+          <h1 style="color:green;">
+                ห้าเหลี่ยม
+            </h1>
+            <label >ระยะ</label><br><br>
+            <label >ความยาวใน 1 ด้าน</label>
+            <input type="number" id="fx" name="fx"><br><br>
+            <label >จุดเริ่ม :</label><br><br>
+            <label >X :</label>
+            <input type="number" id="fx" name="fx"><br><br>
+            <label >Y :</label>
+            <input type="number" id="fy" name="fy"><br><br>
+          <button id="closePopup3">
+            ยืนยัน
+            </button>
+      </div>
+    </div>
+    <div id="myPopup4" class="popup">
+      <div class="popup-content">
+          <h1 style="color:green;">
+                วงกลม
+            </h1>
+            <label >ระยะ</label><br><br>
+            <label >รัศมี :</label>
+            <input type="number" id="fx" name="fx"><br><br>
+            <label >จุดศูนย์กลาง :</label><br><br>
+            <label >X :</label>
+            <input type="number" id="fx" name="fx"><br><br>
+            <label >Y :</label>
+            <input type="number" id="fy" name="fy"><br><br>
+          <button id="closePopup4">
+            ยืนยัน
+            </button>
+      </div>
+    </div>
     <script src="app_index.js"></script>
   </body>
 </html>
