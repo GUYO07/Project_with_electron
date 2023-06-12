@@ -63,9 +63,6 @@ function set_parameter() {
   rpm_1 = 0;
   test_start = 0;
   JSONdata = [];
-  x_json = 0;
-  y_json = 0;
-  t_json = 0;
   OBJdata = {
     Position: 0,
     Position_ref: 0,
@@ -73,16 +70,18 @@ function set_parameter() {
     Speed_ref: 0,
     Time: 0,
   };
+  X = [];
+  Y = [];
+  X2 = [];
+  Y2 = [];
+  T = [];
+  i=0;
 }
-
+time_count();
+timer.stop();
 function time_count() {
   timer.start({ precision: "secondTenths" });
-  var X = [];
-  var Y = [];
-  var X2 = [];
-  var Y2 = [];
-  var T = [];
-  var i=0;
+  
   timer.addEventListener("secondTenthsUpdated", function (e) {
     X.push(position_x);
     Y.push(position_y);
@@ -138,13 +137,11 @@ async function port_read1() {
     document.getElementById("position1").innerHTML = data;
     if (limit_x1 == 1 && status_motor1 == 1) {
       send.send(5);
-      timer.stop();
       status_motor1 = 0;
       console.log("ชนจ้า");
     }
     if (limit_x2 == 1 && status_motor1 == 1) {
       send.send(5);
-      timer.stop();
       status_motor1 = 0;
       port2.write("1", function (err) {
         if (err) {
@@ -164,7 +161,6 @@ async function port_read1() {
     }
     if (limit_y3 == 1 && status_motor2 == 1) {
       send2.send(5);
-      timer.stop();
       status_motor2 = 0;
       console.log("ชนจ้า");
       port2.write("2", function (err) {
@@ -185,7 +181,6 @@ async function port_read1() {
     }
     if (limit_y4 == 1 && status_motor2 == 1) {
       send2.send(5);
-      timer.stop();
       status_motor2 = 0;
       console.log("ชนจ้า");
     }
@@ -262,8 +257,6 @@ input2.addEventListener("input", (event) => {
 });
 
 function cb1() {
-  // Get the checkbox
-  //console.log(typeof Number(document.getElementById("speed1").innerHTML));
   var checkBox = document.getElementById("cb1");
   if (checkBox.checked == false) {
     if (limit_x1 == 0 && limit_x2 == 0) {
@@ -277,18 +270,14 @@ function cb1() {
     }
     console.log(s1 + c_1);
     send.send(s1 + c_1 + " ");
-    time_count();
-    //get_p();
     setTimeout(() => {
       status_motor1 = 1;
-      //pid();
     }, 1000);
   } else {
     console.log(5);
     if (s1 > -1 && c_1 > 0) {
       send.send(5);
       status_motor1 = 0;
-      timer.stop();
     }
   }
 }
@@ -351,7 +340,6 @@ async function get_p() {
     if (position_x >= xf[xf.length - 1]) {
       send.send(5);
       status_motor1 = 0;
-      timer.stop();
       break;
     }
     if (position_x < xf[0]) {
@@ -434,10 +422,14 @@ async function get_p() {
     }
   });
 }
-function reset() {
-  x_json = 0;
-  y_json = 0;
-  t_json = 0;
+
+function reset(){
+  X = [];
+  Y = [];
+  X2 = [];
+  Y2 = [];
+  T = [];
+  i=0;
 }
 function savejson() {
   var jsonData = JSON.stringify(JSONdata);
@@ -459,54 +451,60 @@ async function test_loop(x, y) {
   }
 }
 async function square() {
-  //1 50,50
+  var h=Number(document.getElementById('sq_h').value);
+  var w=Number(document.getElementById('sq_w').value);
+  var X=Number(document.getElementById('sq_x').value);
+  var Y=Number(document.getElementById('sq_y').value);
+  console.log(h+" "+w+" "+X+" "+Y)
+  reset();
   var pos = require("./position");
   var pos_ref = pos.position(
-    72.3,
-    215,
-    62.5,
-    62.5,
+    X,
+    X+w,
+    Y,
+    Y,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x = pos_ref[0];
   var y = pos_ref[1];
   var pos_ref2 = pos.position(
-    215,
-    215,
-    62.5,
-    155.4,
+    X+w,
+    X+w,
+    Y,
+    Y+h,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x2 = pos_ref2[0];
   var y2 = pos_ref2[1];
   var pos_ref3 = pos.position(
-    215,
-    72.3,
-    155.4,
-    155.4,
+    X+w,
+    X,
+    Y+h,
+    Y+h,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x3 = pos_ref3[0];
   var y3 = pos_ref3[1];
   var pos_ref4 = pos.position(
-    72.3,
-    72.3,
-    155.4,
-    62.5,
+    X,
+    X,
+    Y+h,
+    Y,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x4 = pos_ref4[0];
   var y4 = pos_ref4[1];
-  await reset();
   console.log("run 1");
-  await go_to_target(72.3, 62.5);
+  await go_to_target(X, Y);
   //2 150,50
   JSONdata = [];
-  await time_count();
+  //await time_count();
+  reset();
+  await timer.start({ precision: "secondTenths" });
   await test_loop(x, y);
   await test_loop(x2, y2);
   await test_loop(x3, y3);
@@ -587,9 +585,6 @@ async function go_to_target(x, y) {
       }
     }
     if (a == 1 && b == 1) {
-      x_json = X[i - 1];
-      y_json = Y[i - 1];
-      t_json = T[i - 1];
       break;
     }
     if (b == 0) {
@@ -747,39 +742,46 @@ async function test() {
 }
 
 async function tri() {
+  var h=Number(document.getElementById('tri_h').value);
+  var w=Number(document.getElementById('tri_w').value);
+  var X=Number(document.getElementById('tri_x').value);
+  var Y=Number(document.getElementById('tri_y').value);
   var pos = require("./position");
   var pos_ref = pos.position(
-    220,
-    150,
-    63,
-    158,
+    X+w,
+    X+w/2,
+    Y,
+    Y+h,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x = pos_ref[0];
   var y = pos_ref[1];
   var pos_ref2 = pos.position(
-    150,
-    79,
-    158,
-    63,
+    X+w/2,
+    X,
+    Y+h,
+    Y,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
+  var x2 = pos_ref2[0];
+  var y2 = pos_ref2[1];
   var pos_ref0 = pos.position(
-    79,
-    220,
-    63,
-    63,
+    X,
+    X+w,
+    Y,
+    Y,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x0 = pos_ref0[0];
   var y0 = pos_ref0[1];
-  await go_to_target(79, 63);
-  await go_to_target(220, 63);
+  await go_to_target(X, Y);
   JSONdata = [];
-  await time_count();
+  //await time_count();
+  reset();
+  await timer.start({ precision: "secondTenths" });
   await test_loop(x0, y0);
   await test_loop(x, y);
   await test_loop(x2, y2);
@@ -787,11 +789,14 @@ async function tri() {
 }
 
 async function circle() {
+  var r=Number(document.getElementById('c_r').value);
+  var X=Number(document.getElementById('c_x').value);
+  var Y=Number(document.getElementById('c_y').value);
   var pos = require("./position_circle");
   var pos_ref = pos.position(
-    147,
-    116,
-    52,
+    X,
+    Y,
+    r,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
@@ -799,7 +804,9 @@ async function circle() {
   var y = pos_ref[1];
   await go_to_target(x[0], y[0]);
   JSONdata = [];
-  await time_count();
+  //await time_count();
+  reset();
+  await timer.start({ precision: "secondTenths" });
   for (let i = 1; i >= 0; i++) {
     if (i == x.length) {
       break;
@@ -826,7 +833,9 @@ async function pen() {
   var y4 = pos_ref4[1];
   await go_to_target(110, 63);
   JSONdata = [];
-  await time_count();
+  //await time_count();
+  reset();
+  await timer.start({ precision: "secondTenths" });
   await test_loop(x, y);
   await test_loop(x2, y2);
   await test_loop(x3, y3);
