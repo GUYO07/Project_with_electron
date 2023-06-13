@@ -75,13 +75,13 @@ function set_parameter() {
   X2 = [];
   Y2 = [];
   T = [];
-  i=0;
+  i = 0;
 }
 time_count();
 timer.stop();
 function time_count() {
   timer.start({ precision: "secondTenths" });
-  
+
   timer.addEventListener("secondTenthsUpdated", function (e) {
     X.push(position_x);
     Y.push(position_y);
@@ -218,7 +218,7 @@ function c2() {
   cb2();
 }
 
-function pid(s) {
+function pidx(s) {
   let ctr = new Controller({
     k_p: 1, //1
     k_i: 0.05, //0.05
@@ -226,11 +226,23 @@ function pid(s) {
     dt: 0, //0
   });
   ctr.setTarget(s); // 120km/h
-  let output = Math.abs(rpm_1);
+  let output = position_x;
   let input = ctr.update(output);
   //console.log(output);
-  pid_con(Math.round(input));
-  //console.log(Math.round(input));
+  return input;
+}
+function pidy(s) {
+  let ctr = new Controller({
+    k_p: 1, //1
+    k_i: 0.05, //0.05
+    k_d: 0.02, //.002
+    dt: 0, //0
+  });
+  ctr.setTarget(s); // 120km/h
+  let output = position_y;
+  let input = ctr.update(output);
+  //console.log(output);
+  return input;
 }
 function pid_con(x) {
   s1 = x * 10;
@@ -423,13 +435,13 @@ async function get_p() {
   });
 }
 
-function reset(){
+function reset() {
   X = [];
   Y = [];
   X2 = [];
   Y2 = [];
   T = [];
-  i=0;
+  i = 0;
 }
 function savejson() {
   var jsonData = JSON.stringify(JSONdata);
@@ -442,25 +454,121 @@ function savejson() {
     }
   });
 }
+async function go_pid(x, y) {
+  var X = await pidx(x);
+  var Y = await pidy(y);
+  console.log(x + "," + y);
+  var f = 1;
+  var dx = X;
+  var dy = Y;
+  var a = 0;
+  var b = 0;
+  var t = 1;
+  if (dx > 0) {
+    c_1 = 6;
+  } else if (dx < 0) {
+    c_1 = 4;
+  }
+  if (dy > 0) {
+    c_2 = 4;
+  } else if (dy < 0) {
+    c_2 = 6;
+  }
+  if (limit_x1 == 0 && limit_x2 == 0) {
+    status_motor1 = 1;
+  } else if (limit_x1 == 1) {
+    status_motor1 = 0;
+    c_1 = 4;
+  } else if (limit_x2 == 1) {
+    status_motor1 = 0;
+    c_1 = 6;
+  }
+  if (limit_y3 == 0 && limit_y4 == 0) {
+    status_motor2 = 1;
+  } else if (limit_y3 == 1) {
+    status_motor1 = 0;
+    c_2 = 4;
+  } else if (limit_y4 == 1) {
+    status_motor1 = 0;
+    c_2 = 6;
+  }
+  s1=X*3;
+  s2=Y*3;
+  send.send(s1 + c_1 + " ");
+  send2.send(s2 + c_2 + " ");
+  setTimeout(() => {
+    status_motor1 = 1;
+    status_motor2 = 1;
+  }, 1000);
+  for (let i = 0; i >= 0; i++) {
+    if (dx > 0) {
+      if (position_x > (position_x+X) * f) {
+        send.send(5);
+        status_motor1 = 0;
+        a = 1;
+        console.log("a stop");
+      }
+    } else if (dx < 0) {
+      if (position_x < (position_x+X) * (2 - f)) {
+        send.send(5);
+        status_motor1 = 0;
+        a = 1;
+        console.log("a stop");
+      }
+    }
+    if (dy > 0) {
+      if (position_y > (position_y+Y) * f) {
+        send2.send(5);
+        status_motor2 = 0;
+        b = 1;
+        console.log("b stop");
+      }
+    } else if (dy < 0) {
+      if (position_y < (position_y+Y) * (2 - f)) {
+        send2.send(5);
+        status_motor2 = 0;
+        b = 1;
+        console.log("b stop");
+      }
+    }
+    if (a == 1 && b == 1) {
+      break;
+    }
+    if (b == 0) {
+      send2.send(s2 + c_2 + " ");
+    }
+    if (a == 0) {
+      send.send(s1 + c_1 + " ");
+    }
+    if (b == 1) {
+      send2.send(5 + " ");
+    }
+    if (a == 1) {
+      send.send(5 + " ");
+    }
+    await delayLog(1, t);
+  }
+}
 async function test_loop(x, y) {
   for (let i = 0; i >= 0; i++) {
     if (i == x.length) {
       break;
     }
     await go_to_target(x[i], y[i]);
+    //await go_pid(x[i], y[i]);
   }
 }
 async function square() {
-  var h=Number(document.getElementById('sq_h').value);
-  var w=Number(document.getElementById('sq_w').value);
-  var X=Number(document.getElementById('sq_x').value);
-  var Y=Number(document.getElementById('sq_y').value);
-  console.log(h+" "+w+" "+X+" "+Y)
+  var h = Number(document.getElementById("sq_h").value);
+  var w = Number(document.getElementById("sq_w").value);
+  var X = Number(document.getElementById("sq_x").value);
+  var Y = Number(document.getElementById("sq_y").value);
+  console.log(h + " " + w + " " + X + " " + Y);
   reset();
   var pos = require("./position");
   var pos_ref = pos.position(
     X,
-    X+w,
+    X + w,
     Y,
     Y,
     100,
@@ -469,20 +577,20 @@ async function square() {
   var x = pos_ref[0];
   var y = pos_ref[1];
   var pos_ref2 = pos.position(
-    X+w,
-    X+w,
+    X + w,
+    X + w,
     Y,
-    Y+h,
+    Y + h,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x2 = pos_ref2[0];
   var y2 = pos_ref2[1];
   var pos_ref3 = pos.position(
-    X+w,
+    X + w,
     X,
-    Y+h,
-    Y+h,
+    Y + h,
+    Y + h,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
@@ -491,7 +599,7 @@ async function square() {
   var pos_ref4 = pos.position(
     X,
     X,
-    Y+h,
+    Y + h,
     Y,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
@@ -499,7 +607,7 @@ async function square() {
   var x4 = pos_ref4[0];
   var y4 = pos_ref4[1];
   console.log("run 1");
-  await go_to_target(X, Y);
+  await go_to_target2(X, Y);
   //2 150,50
   JSONdata = [];
   //await time_count();
@@ -513,7 +621,8 @@ async function square() {
 }
 
 async function go_to_target(x, y) {
-  console.log(x + "," + y);
+  //console.log(x + "," + y);
+  var f = 1;
   var dx = x - position_x;
   var dy = y - position_y;
   var a = 0;
@@ -547,6 +656,9 @@ async function go_to_target(x, y) {
     status_motor1 = 0;
     c_2 = 6;
   }
+  //s1=Math.abs(dx)/*3;
+  //s2=Math.abs(dy)/*3;
+  console.log(Math.abs(dx)*30);
   send.send(s1 + c_1 + " ");
   send2.send(s2 + c_2 + " ");
   setTimeout(() => {
@@ -555,33 +667,33 @@ async function go_to_target(x, y) {
   }, 1000);
   for (let i = 0; i >= 0; i++) {
     if (dx > 0) {
-      if (position_x > x) {
+      if (position_x > x * f) {
         send.send(5);
         status_motor1 = 0;
         a = 1;
-        console.log("a stop");
+        //console.log("a stop");
       }
     } else if (dx < 0) {
-      if (position_x < x) {
+      if (position_x < x * (2 - f)) {
         send.send(5);
         status_motor1 = 0;
         a = 1;
-        console.log("a stop");
+        //console.log("a stop");
       }
     }
     if (dy > 0) {
-      if (position_y > y) {
+      if (position_y > y * f) {
         send2.send(5);
         status_motor2 = 0;
         b = 1;
-        console.log("b stop");
+        //console.log("b stop");
       }
     } else if (dy < 0) {
-      if (position_y < y) {
+      if (position_y < y * (2 - f)) {
         send2.send(5);
         status_motor2 = 0;
         b = 1;
-        console.log("b stop");
+        //console.log("b stop");
       }
     }
     if (a == 1 && b == 1) {
@@ -593,16 +705,24 @@ async function go_to_target(x, y) {
     if (a == 0) {
       send.send(s1 + c_1 + " ");
     }
+    if (b == 1) {
+      send2.send(5 + " ");
+    }
+    if (a == 1) {
+      send.send(5 + " ");
+    }
     await delayLog(1, t);
   }
 }
 
-async function go_to_target2(x, y, t, vx, vy) {
+async function go_to_target2(x, y) {
   console.log(x + "," + y);
+  var f = 1;
   var dx = x - position_x;
   var dy = y - position_y;
   var a = 0;
   var b = 0;
+  var t = 1;
   if (dx > 0) {
     c_1 = 6;
   } else if (dx < 0) {
@@ -631,30 +751,24 @@ async function go_to_target2(x, y, t, vx, vy) {
     status_motor1 = 0;
     c_2 = 6;
   }
-  s1 = vx;
-  s2 = vy;
+  //s1=Math.abs(dx)/t*3000;
+  //s2=Math.abs(dy)/t*3000;
   send.send(s1 + c_1 + " ");
   send2.send(s2 + c_2 + " ");
   setTimeout(() => {
     status_motor1 = 1;
     status_motor2 = 1;
-  }, 2000);
-  if (s2 < 10) {
-    s2 = 50;
-  }
-  if (s1 < 10) {
-    s1 = 50;
-  }
+  }, 1000);
   for (let i = 0; i >= 0; i++) {
     if (dx > 0) {
-      if (position_x > x) {
+      if (position_x > x * f) {
         send.send(5);
         status_motor1 = 0;
         a = 1;
         console.log("a stop");
       }
     } else if (dx < 0) {
-      if (position_x < x) {
+      if (position_x < x * (2 - f)) {
         send.send(5);
         status_motor1 = 0;
         a = 1;
@@ -662,14 +776,14 @@ async function go_to_target2(x, y, t, vx, vy) {
       }
     }
     if (dy > 0) {
-      if (position_y > y) {
+      if (position_y > y * f) {
         send2.send(5);
         status_motor2 = 0;
         b = 1;
         console.log("b stop");
       }
     } else if (dy < 0) {
-      if (position_y < y) {
+      if (position_y < y * (2 - f)) {
         send2.send(5);
         status_motor2 = 0;
         b = 1;
@@ -685,7 +799,13 @@ async function go_to_target2(x, y, t, vx, vy) {
     if (a == 0) {
       send.send(s1 + c_1 + " ");
     }
-    await delayLog(i, t);
+    if (b == 1) {
+      send2.send(5 + " ");
+    }
+    if (a == 1) {
+      send.send(5 + " ");
+    }
+    await delayLog(1, t);
   }
 }
 
@@ -742,25 +862,25 @@ async function test() {
 }
 
 async function tri() {
-  var h=Number(document.getElementById('tri_h').value);
-  var w=Number(document.getElementById('tri_w').value);
-  var X=Number(document.getElementById('tri_x').value);
-  var Y=Number(document.getElementById('tri_y').value);
+  var h = Number(document.getElementById("tri_h").value);
+  var w = Number(document.getElementById("tri_w").value);
+  var X = Number(document.getElementById("tri_x").value);
+  var Y = Number(document.getElementById("tri_y").value);
   var pos = require("./position");
   var pos_ref = pos.position(
-    X+w,
-    X+w/2,
+    X + w,
+    X + w / 2,
     Y,
-    Y+h,
+    Y + h,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
   );
   var x = pos_ref[0];
   var y = pos_ref[1];
   var pos_ref2 = pos.position(
-    X+w/2,
+    X + w / 2,
     X,
-    Y+h,
+    Y + h,
     Y,
     100,
     Number(document.getElementById("speed1").innerHTML) / 3
@@ -769,7 +889,7 @@ async function tri() {
   var y2 = pos_ref2[1];
   var pos_ref0 = pos.position(
     X,
-    X+w,
+    X + w,
     Y,
     Y,
     100,
@@ -789,9 +909,9 @@ async function tri() {
 }
 
 async function circle() {
-  var r=Number(document.getElementById('c_r').value);
-  var X=Number(document.getElementById('c_x').value);
-  var Y=Number(document.getElementById('c_y').value);
+  var r = Number(document.getElementById("c_r").value);
+  var X = Number(document.getElementById("c_x").value);
+  var Y = Number(document.getElementById("c_y").value);
   var pos = require("./position_circle");
   var pos_ref = pos.position(
     X,
@@ -817,21 +937,48 @@ async function circle() {
 }
 
 async function pen() {
+  var d = Number(document.getElementById("p_d").value);
+  var X = Number(document.getElementById("p_x").value);
+  var Y = Number(document.getElementById("p_y").value);
   var s = Number(document.getElementById("speed1").innerHTML);
+  var p1 = {
+    x: X,
+    y: Y
+  };
+  
+  var p2 = {
+    x: X+d,
+    y: Y
+  };
+  var p3 = {
+    x: p2.x+d*Math.cos(72),
+    y: Y+d*Math.sin(72)
+  };
+  
+  var p4 = {
+    x: p3.x-d*Math.sin(72),
+    y: p3.y+d*Math.cos(72)
+  };
+  var p5 = {
+    x: X-d*Math.cos(72),
+    y: Y+d*Math.sin(72)
+  };
+  
   var pos = require("./position");
-  var pos_ref = pos.position(187, 210, 63, 135, 100, s / 3);
+  var pos_ref = pos.position(p2.x, p3.x, p2.y, p3.y, 100, s / 3);
   var x = pos_ref[0];
   var y = pos_ref[1];
-  var pos_ref2 = pos.position(210, 147, 135, 180, 100, s / 3);
+  var pos_ref2 = pos.position(p3.x, p4.x, p3.y, p4.y, 100, s / 3);
   var x2 = pos_ref2[0];
   var y2 = pos_ref2[1];
-  var pos_ref3 = pos.position(147, 82, 180, 135, 100, s / 3);
+  var pos_ref3 = pos.position(p4.x, p5.x, p4.y, p5.y, s / 3);
   var x3 = pos_ref3[0];
   var y3 = pos_ref3[1];
-  var pos_ref4 = pos.position(82, 110, 135, 63, 100, s / 3);
+  var pos_ref4 = pos.position(p5.x, p1.x, p5.y, p1.y, s / 3);
   var x4 = pos_ref4[0];
   var y4 = pos_ref4[1];
-  await go_to_target(110, 63);
+  await go_to_target(p1.x, p1.x);
+  await go_to_target(p2.x, p2.y);
   JSONdata = [];
   //await time_count();
   reset();
