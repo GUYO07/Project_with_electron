@@ -1,13 +1,13 @@
-/*const fs = require("fs");
+const fs = require("fs");
 var pos = require("./position");
 var h = 100
 var w = 150
 var X = 75
 var Y = 60
-var x = pos.position(X , X + w, Y, Y, 100, 25 / 3);
-console.log(x[0]);*/
+var x = pos.position(X , X + w, Y, Y+w, 100, 25 / 3);
+console.log(x[1]);
 
-function angle(cx, cy, ex, ey) {
+/*function angle(cx, cy, ex, ey) {
   var dy = ey - cy;
   var dx = ex - cx;
   var theta = Math.atan2(dy, dx); // range (-PI, PI]

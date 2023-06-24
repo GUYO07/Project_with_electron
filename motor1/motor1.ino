@@ -1,5 +1,6 @@
 #include <TimerOne.h>
-int x;
+unsigned long x = 0;
+unsigned long f = 0;
 int y;
 int z = 12800;
 #define MAX_LENGTH 64   // ความยาวสูงสุดของสตริงที่รับเข้ามา
@@ -34,7 +35,8 @@ void loop() {
  // x = Serial.readString().toInt();
   y = x % 10;
   //Timer1.initialize(13604 * pow(x / 10, -0.9855));
-  Timer1.setPeriod(13604 * pow(x / 10, -0.9855));
+  f = 996710 / ((x / 10));
+  Timer1.setPeriod(f);
   if (y == 4) {
     digitalWrite(8, 0);
   }
