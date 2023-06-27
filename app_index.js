@@ -660,11 +660,15 @@ async function set_fre2(x1, x2, y1, y2) {
     c_1 = 6;
   } else if (dx < 0) {
     c_1 = 4;
+  }else{
+    c_1=5;
   }
   if (dy > 0) {
     c_2 = 4;
   } else if (dy < 0) {
     c_2 = 6;
+  }else{
+    c_2=5;
   }
   var pos = require("./position");
   var pos_ref = pos.position(x1, x2, y1, y2, T, Math.sqrt(vx ** 2 + vy ** 2));
@@ -683,8 +687,8 @@ async function set_fre2(x1, x2, y1, y2) {
   }, 10);
   var t = 0;
   for (var i = 0; i >= 0; i++) {
-    x = Math.abs(x[i] - position_x); //mm
-    y = Math.abs(y[i] - position_x); //mms
+    /*x = Math.abs(x[i] - position_x); //mm
+    y = Math.abs(y[i] - position_y); //mms
     if (x > y) {
       vx = (x / T) * 1000; //mm/s
       vy = (vx / x) * y; //mm/s
@@ -693,7 +697,7 @@ async function set_fre2(x1, x2, y1, y2) {
       vx = (vy / y) * x; //mm/s
     }
     s1 = Math.round(2000 * (vx / 20)) * 10;
-    s2 = Math.round(2000 * (vy / 20)) * 10;
+    s2 = Math.round(2000 * (vy / 20)) * 10;*/
     send.send(s1 + c_1 + " ");
     send2.send(s2 + c_2 + " ");
     await add_json(X[i], Y[i]);
@@ -734,6 +738,8 @@ function add_json(x, y) {
   OBJdata = {
     Position_x: position_x,
     Position_y: position_y,
+    Position_x_en: position_x_en,
+    Position_y_en: position_y_en,
     Position_x_ref: x,
     Position_y_ref: y,
     time: timer.getTotalTimeValues().secondTenths * 100,
@@ -885,63 +891,33 @@ async function test() {
   } else if (x == 4) {
     circle();
   } else if (x == 5) {
-    twentymm();
+    xtest();
+  }else if (x == 6) {
+    ytest();
   }
 }
-async function twentymm() {
-  /*s1 = 2000;
-  // c_1=6;
-  send.send(s1 + c_1 + " ");
-  await go_to_target2(position_x + 20, 0);*/
-  var h = Number(document.getElementById("tri_h").value);
-  var w = Number(document.getElementById("tri_w").value);
-  var X = Number(document.getElementById("tri_x").value);
-  var Y = Number(document.getElementById("tri_y").value);
-  var pos = require("./position");
-  var pos_ref = pos.position(
-    X + w,
-    X + w / 2,
-    Y,
-    Y + h,
-    100,
-    Number(document.getElementById("speed1").innerHTML) / 3
-  );
-  var x = pos_ref[0];
-  var y = pos_ref[1];
-  var pos_ref2 = pos.position(
-    X + w / 2,
-    X,
-    Y + h,
-    Y,
-    100,
-    Number(document.getElementById("speed1").innerHTML) / 3
-  );
-  var x2 = pos_ref2[0];
-  var y2 = pos_ref2[1];
-  var pos_ref0 = pos.position(
-    X,
-    X + w,
-    Y,
-    Y,
-    100,
-    Number(document.getElementById("speed1").innerHTML) / 3
-  );
-  var x0 = pos_ref0[0];
-  var y0 = pos_ref0[1];
+async function xtest() {
+  var d = Number(document.getElementById("x_d").value);
+  var X = Number(document.getElementById("x_x").value);
+  var Y = Number(document.getElementById("x_y").value);
   await go_to_target2(X, Y);
-  JSONdata = [];
-  //await time_count();
+  //await go_to_target2(X+d, Y);
   reset();
+  JSONdata = [];
   await timer.start({ precision: "secondTenths" });
-  /*await test_loop2(x0, y0);
-  await test_loop2(x, y);
-  await test_loop2(x2, y2);*/
-  await set_fre2(X, X + w, Y, Y);
-  await set_fre2(X + w, X + w / 2, Y, Y + h);
-  await set_fre2(X + w / 2, X, Y + h, Y);
-  /* await set_fre2(position_x, X + w, position_y, Y);
-  await set_fre2(position_x, X + w / 2, position_y, Y + h);
-  await set_fre2(position_x, X, position_y, Y);*/
+  await set_fre2(X, X+d,Y, Y);
+  await savejson();
+}
+async function ytest() {
+  var d = Number(document.getElementById("y_d").value);
+  var X = Number(document.getElementById("y_x").value);
+  var Y = Number(document.getElementById("y_y").value);
+  await go_to_target2(X, Y);
+ // await go_to_target2(X, Y+d);
+  reset();
+  JSONdata = [];
+  await timer.start({ precision: "secondTenths" });
+  await set_fre2(X,X,Y, Y+d);
   await savejson();
 }
 async function square() {
@@ -1166,6 +1142,12 @@ closePopup3.addEventListener("click", function () {
 closePopup4.addEventListener("click", function () {
   myPopup4.classList.remove("show");
 });
+closePopup5.addEventListener("click", function () {
+  myPopup5.classList.remove("show");
+});
+closePopup6.addEventListener("click", function () {
+  myPopup6.classList.remove("show");
+});
 
 async function test_t() {
   var x = document.getElementById("test_type").value;
@@ -1177,5 +1159,10 @@ async function test_t() {
     myPopup3.classList.add("show");
   } else if (x == 4) {
     myPopup4.classList.add("show");
+  }else if (x == 5) {
+    myPopup5.classList.add("show");
+  }else if (x == 6) {
+    myPopup6.classList.add("show");
   }
+  
 }
