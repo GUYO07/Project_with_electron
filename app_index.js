@@ -145,12 +145,12 @@ async function port_read1() {
         }
         console.log("message written 1");
       });
-      portx.write("1", function (err) {
+      /*portx.write("1", function (err) {
         if (err) {
           return console.log("Error on write: ", err.message);
         }
         console.log("message written 11");
-      });
+      });*/
       setTimeout(() => {
         port2.write("0", function (err) {
           if (err) {
@@ -159,12 +159,12 @@ async function port_read1() {
           console.log("message written 0");
           status_motor1 = 0;
         });
-        portx.write("0", function (err) {
+       /* portx.write("0", function (err) {
           if (err) {
             return console.log("Error on write: ", err.message);
           }
           console.log("message written 00");
-        });
+        });*/
       }, 3000);
     }
     if (limit_y3 == 1 && status_motor2 == 1) {
@@ -177,12 +177,12 @@ async function port_read1() {
         }
         console.log("message written 2");
       });
-      porty.write("1", function (err) {
+      /*porty.write("1", function (err) {
         if (err) {
           return console.log("Error on write: ", err.message);
         }
         console.log("message written 11");
-      });
+      });*/
       setTimeout(() => {
         port2.write("0", function (err) {
           if (err) {
@@ -191,12 +191,12 @@ async function port_read1() {
           console.log("message written 0");
           status_motor1 = 0;
         });
-        porty.write("0", function (err) {
+       /* porty.write("0", function (err) {
           if (err) {
             return console.log("Error on write: ", err.message);
           }
           console.log("message written 00");
-        });
+        });*/
       }, 3000);
     }
     if (limit_y4 == 1 && status_motor2 == 1) {
@@ -650,10 +650,12 @@ async function set_fre2(x1, x2, y1, y2) {
   s1 = Math.round(2000 * (vx / 20)) * 10;
   tx = (x / vx) * 1000;
   s2 = Math.round(2000 * (vy / 20)) * 10;
+ 100
+
   ty = (y / vy) * 1000;
   console.log(x2 + " " + y2 + " " + tx);
   //console.log(s1 + " " + s2);
-  //console.log(tx + " " + ty);
+  console.log(tx + " " + ty);
   var dx = x2 - x1;
   var dy = y2 - y1;
   if (dx > 0) {
@@ -676,11 +678,6 @@ async function set_fre2(x1, x2, y1, y2) {
   var Y = pos_ref[1];
   send.send(s1 + c_1 + " ");
   send2.send(s2 + c_2 + " ");
-  /*await send.send(s1 + c_1 + " ");
-  await send2.send(s2 + c_2 + " ");
-  await send.send(s1 + c_1 + " ");
-  await send2.send(s2 + c_2 + " ");*/
-  //console.log(s2 +c_2);
   await setTimeout(() => {
     status_motor1 = 1;
     status_motor2 = 1;
@@ -700,11 +697,11 @@ async function set_fre2(x1, x2, y1, y2) {
     s2 = Math.round(2000 * (vy / 20)) * 10;*/
     send.send(s1 + c_1 + " ");
     send2.send(s2 + c_2 + " ");
-    await add_json(X[i], Y[i]);
+    await add_json(X[i], Y[i],t);
     await delayLog(1, T);
     t += T;
-    console.log(t);
-    if (t >= tx) {
+    //console.log(t);
+    if (t >= tx || t >= ty) {
       break;
     }
   }
@@ -734,15 +731,15 @@ async function go_to_target(x, y) {
   await add_json(x, y);
   //await delayLog(1, 1500);
 }
-function add_json(x, y) {
+function add_json(x, y,t) {
   OBJdata = {
     Position_x: position_x,
     Position_y: position_y,
-    Position_x_en: position_x_en,
-    Position_y_en: position_y_en,
+    //Position_x_en: position_x_en,
+    //Position_y_en: position_y_en,
     Position_x_ref: x,
     Position_y_ref: y,
-    time: timer.getTotalTimeValues().secondTenths * 100,
+    time: t,
   };
   JSONdata.push(OBJdata);
 }
@@ -902,6 +899,7 @@ async function xtest() {
   var Y = Number(document.getElementById("x_y").value);
   await go_to_target2(X, Y);
   //await go_to_target2(X+d, Y);
+  await delayLog(1, 1000);
   reset();
   JSONdata = [];
   await timer.start({ precision: "secondTenths" });
@@ -914,10 +912,11 @@ async function ytest() {
   var Y = Number(document.getElementById("y_y").value);
   await go_to_target2(X, Y);
  // await go_to_target2(X, Y+d);
+ await delayLog(1, 1000);
   reset();
   JSONdata = [];
   await timer.start({ precision: "secondTenths" });
-  await set_fre2(X,X,Y, Y+d);
+  await set_fre2(X,X,Y,Y+d);
   await savejson();
 }
 async function square() {
